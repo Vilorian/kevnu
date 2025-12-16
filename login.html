@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login to your account to access your courses and dashboard.">
+    <title>Login - Kevnu</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">
+                    <span class="kevnu-logo-text">KEVNU</span>
+                </a>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="courses.html" class="nav-link">Courses</a></li>
+                <li><a href="commission.html" class="nav-link">Commission</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <a href="register.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="auth-container">
+        <div class="container auth-card">
+            <div class="card fade-in">
+                <div class="card__content">
+                    <div class="auth-header">
+                        <h1 class="section-header__title">Welcome Back</h1>
+                        <p class="section-header__subtitle">Login to access your courses and dashboard</p>
+                    </div>
+
+                    <div id="errorMessage" class="auth-message auth-message--error"></div>
+                    <div id="successMessage" class="auth-message auth-message--success"></div>
+
+                    <form id="loginForm" method="POST">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" name="password" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn--primary btn--full">Login</button>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="auth-text">
+                                Don't have an account? 
+                                <a href="register.html" class="auth-link">Sign up</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+
+            const result = await authManager.login(email, password);
+            if (result === true) {
+                successDiv.textContent = 'Login successful! Redirecting...';
+                successDiv.classList.add('show');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            } else {
+                errorDiv.textContent = result || 'Login failed';
+                errorDiv.classList.add('show');
+            }
+        });
+    </script>
+</body>
+</html>
+

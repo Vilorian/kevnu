@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional web development and UI/UX design courses. Learn from experts and commission custom projects.">
+    <meta name="keywords" content="web development, UI/UX design, courses, online learning, web design, commission">
+    <title>Kevnu | Master Web Development & UI/UX Design</title>
+    
+    <!-- Google Fonts - Professional Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">
+                    <span class="kevnu-logo-text">KEVNU</span>
+                </a>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="courses.html" class="nav-link">Courses</a></li>
+                <li><a href="commission.html" class="nav-link">Commission</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-text">Login</a>
+                <a href="register.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background">
+            <div class="hero-gradient"></div>
+            <div class="hero-shapes">
+                <div class="bg-shape bg-shape-1"></div>
+                <div class="bg-shape bg-shape-2"></div>
+                <div class="bg-shape bg-shape-3"></div>
+                <div class="bg-shape bg-shape-4"></div>
+                <div class="bg-shape bg-shape-5"></div>
+            </div>
+            <div class="hero-abstract-form">
+                <svg class="abstract-form-svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMax slice">
+                    <defs>
+                        <linearGradient id="greenWave1" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#22c55e;stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:#16a34a;stop-opacity:0.6" />
+                        </linearGradient>
+                        <linearGradient id="greenWave2" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#16a34a;stop-opacity:0.7" />
+                            <stop offset="100%" style="stop-color:#10b981;stop-opacity:0.5" />
+                        </linearGradient>
+                        <linearGradient id="greenWave3" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.6" />
+                            <stop offset="100%" style="stop-color:#059669;stop-opacity:0.4" />
+                        </linearGradient>
+                        <linearGradient id="greenWave4" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#059669;stop-opacity:0.5" />
+                            <stop offset="100%" style="stop-color:#047857;stop-opacity:0.3" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Flowing wave layers -->
+                    <path d="M0,450 Q200,400 400,430 Q600,460 800,420 Q1000,380 1200,410 L1200,600 L0,600 Z" fill="url(#greenWave1)" opacity="0.9"/>
+                    <path d="M0,480 Q150,430 350,460 Q550,490 750,450 Q950,410 1200,440 L1200,600 L0,600 Z" fill="url(#greenWave2)" opacity="0.85"/>
+                    <path d="M0,510 Q250,450 450,490 Q650,530 850,480 Q1050,430 1200,470 L1200,600 L0,600 Z" fill="url(#greenWave3)" opacity="0.8"/>
+                    <path d="M0,540 Q300,470 500,520 Q700,570 900,510 Q1100,450 1200,500 L1200,600 L0,600 Z" fill="url(#greenWave4)" opacity="0.75"/>
+                    <path d="M0,570 Q350,490 550,550 Q750,610 950,540 Q1150,470 1200,530 L1200,600 L0,600 Z" fill="url(#greenWave3)" opacity="0.7"/>
+                    <path d="M0,590 Q400,510 600,580 Q800,600 1000,570 L1200,560 L1200,600 L0,600 Z" fill="url(#greenWave4)" opacity="0.65"/>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="container">
+                <div class="hero-layout">
+                    <div class="hero-text">
+                        <h1 class="hero-title fade-in">
+                            Build Beautiful <span class="text-gradient">Web Experiences</span> That Users <span class="text-gradient love-word">Love<svg class="underline-svg underline-1" viewBox="0 0 120 15" preserveAspectRatio="none"><defs><filter id="brush1"><feGaussianBlur in="SourceGraphic" stdDeviation="0.5"/></filter></defs><path d="M0,10 Q30,3 60,10 T120,10" stroke="#22c55e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#brush1)"/></svg><svg class="underline-svg underline-2" viewBox="0 0 120 15" preserveAspectRatio="none"><defs><filter id="brush2"><feGaussianBlur in="SourceGraphic" stdDeviation="0.4"/></filter></defs><path d="M0,12 Q30,5 60,12 T120,12" stroke="#16a34a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#brush2)"/></svg></span>
+                        </h1>
+                        
+                        <p class="hero-subtitle fade-in-delay-1">
+                            Join thousands of developers and designers learning the latest web technologies. From React to Figma, master the tools that power modern digital experiences.
+                        </p>
+                        
+                        <div class="hero-actions fade-in-delay-2">
+                            <a href="courses.html" class="btn btn-primary btn-large">
+                                <span>Browse Courses</span>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                            <a href="commission.html" class="btn btn-outline btn-large">
+                                <span>Hire Us</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Courses Section -->
+    <section class="section courses-section" id="courses">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Our Courses</span>
+                <h2 class="section-title">
+                    Featured <span class="text-gradient">Courses</span>
+                </h2>
+                <p class="section-description">
+                    Hand-picked courses to help you master web development and design. 
+                    Each course is designed with real-world projects and industry best practices.
+                </p>
+            </div>
+            
+            <div class="courses-grid" id="coursesGrid">
+                <!-- Course cards will be dynamically loaded -->
+                <div class="course-card skeleton">
+                    <div class="course-image"></div>
+                    <div class="course-content">
+                        <div class="course-category"></div>
+                        <div class="course-title"></div>
+                        <div class="course-description"></div>
+                        <div class="course-footer"></div>
+                    </div>
+                </div>
+                <div class="course-card skeleton">
+                    <div class="course-image"></div>
+                    <div class="course-content">
+                        <div class="course-category"></div>
+                        <div class="course-title"></div>
+                        <div class="course-description"></div>
+                        <div class="course-footer"></div>
+                    </div>
+                </div>
+                <div class="course-card skeleton">
+                    <div class="course-image"></div>
+                    <div class="course-content">
+                        <div class="course-category"></div>
+                        <div class="course-title"></div>
+                        <div class="course-description"></div>
+                        <div class="course-footer"></div>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="text-center mt-4">
+                <a href="courses.html" class="btn btn-secondary">View All Courses</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="section features-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Why Choose Us</span>
+                <h2 class="section-title">
+                    Learn from the <span class="text-gradient">Best</span>
+                </h2>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Expert Instructors</h3>
+                    <p class="feature-description">
+                        Learn from industry professionals with years of real-world experience 
+                        and proven track records in web development and design.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Hands-On Projects</h3>
+                    <p class="feature-description">
+                        Build real-world projects that you can showcase in your portfolio. 
+                        Each project is designed to teach practical, applicable skills.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Lifetime Access</h3>
+                    <p class="feature-description">
+                        Get lifetime access to all course materials, updates, and our 
+                        supportive community of learners and professionals.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Modern Curriculum</h3>
+                    <p class="feature-description">
+                        Stay up-to-date with the latest technologies, frameworks, and design 
+                        trends. Our courses are regularly updated to reflect industry standards.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commission Section -->
+    <section class="section commission-section" id="commission">
+        <div class="commission-background">
+            <div class="commission-gradient"></div>
+        </div>
+        
+        <div class="container">
+            <div class="commission-content">
+                <div class="commission-text">
+                    <span class="section-label">Our Services</span>
+                    <h2 class="section-title">
+                        Need a <span class="text-gradient">Custom Project</span>?
+                    </h2>
+                    <p class="section-description">
+                        Commission us for professional web development and UI/UX design services. 
+                        We create custom solutions tailored to your business needs, from 
+                        responsive websites to complex web applications.
+                    </p>
+                    
+                    <div class="commission-features">
+                        <div class="commission-feature">
+                            <div class="feature-check">✓</div>
+                            <span>Custom Web Development</span>
+                        </div>
+                        <div class="commission-feature">
+                            <div class="feature-check">✓</div>
+                            <span>UI/UX Design & Prototyping</span>
+                        </div>
+                        <div class="commission-feature">
+                            <div class="feature-check">✓</div>
+                            <span>Responsive Design</span>
+                        </div>
+                        <div class="commission-feature">
+                            <div class="feature-check">✓</div>
+                            <span>Performance Optimization</span>
+                        </div>
+                    </div>
+                    
+                    <div class="commission-actions">
+                        <a href="commission.html" class="btn btn-primary btn-large">
+                            <span>Get a Quote</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="contact.html" class="btn btn-outline btn-large">Contact Us</a>
+                    </div>
+                </div>
+                
+                <div class="commission-visual">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="2" y1="12" x2="22" y2="12"/>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                        </div>
+                        <h4>Web Development</h4>
+                        <p>Modern, scalable solutions</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="9" y1="3" x2="9" y2="21"/>
+                                <line x1="3" y1="9" x2="21" y2="9"/>
+                            </svg>
+                        </div>
+                        <h4>UI/UX Design</h4>
+                        <p>Beautiful, intuitive interfaces</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Testimonials</span>
+                <h2 class="section-title">
+                    What Our <span class="text-gradient">Students Say</span>
+                </h2>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <p class="testimonial-text">
+                        "The courses are incredibly well-structured and the instructors explain 
+                        everything clearly. I've learned so much and already applied it to my projects!"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SM</div>
+                        <div class="author-info">
+                            <div class="author-name">Sarah Mitchell</div>
+                            <div class="author-role">Web Developer</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <p class="testimonial-text">
+                        "As a designer, the UI/UX courses have been game-changing. The practical 
+                        projects helped me build a portfolio that landed me my dream job!"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JD</div>
+                        <div class="author-info">
+                            <div class="author-name">James Davis</div>
+                            <div class="author-role">UI/UX Designer</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <p class="testimonial-text">
+                        "The full-stack development course is comprehensive and up-to-date. 
+                        I went from beginner to building production apps in just a few months!"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MC</div>
+                        <div class="author-info">
+                            <div class="author-name">Maria Chen</div>
+                            <div class="author-role">Full-Stack Developer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="cta-background">
+            <div class="cta-gradient"></div>
+        </div>
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Start Your Journey?</h2>
+                <p class="cta-description">
+                    Join thousands of students learning web development and UI/UX design. 
+                    Start your first course today and transform your career.
+                </p>
+                <div class="cta-actions">
+                    <a href="register.html" class="btn btn-primary btn-large">Get Started Free</a>
+                    <a href="courses.html" class="btn btn-outline btn-large">Browse Courses</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <a href="index.html" class="logo-link">
+                            <span class="kevnu-logo-text" style="color: var(--white-pure);">KEVNU</span>
+                        </a>
+                    </div>
+                    <p class="footer-description">
+                        Professional web development and UI/UX design courses. 
+                        Learn from experts and transform your career.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-heading">Menu</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="commission.html">Commission</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-heading">Courses</h3>
+                    <ul class="footer-links">
+                        <li><a href="courses.html?category=web-development">Web Development</a></li>
+                        <li><a href="courses.html?category=ui-ux-design">UI/UX Design</a></li>
+                        <li><a href="courses.html?category=full-stack">Full Stack</a></li>
+                        <li><a href="courses.html?category=frontend">Frontend</a></li>
+                        <li><a href="courses.html?category=backend">Backend</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-heading">Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="support.html">Support</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    &copy; <span id="currentYear"></span> Kevnu. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>

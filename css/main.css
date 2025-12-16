@@ -1,0 +1,300 @@
+/**
+ * Main Stylesheet - Kevin Courses
+ * Soft White & Green Design System
+ */
+
+/* ============================================
+   CSS Variables - Color Palette & Design Tokens
+   ============================================ */
+:root {
+    /* Primary Green Palette - Soft Tones */
+    --green-mint: #A8E6CF;
+    --green-sage: #B8D4C8;
+    --green-forest: #4A7C59;
+    --green-emerald: #50C878;
+    --green-jade: #00A86B;
+    --green-light: #D4F1E4;
+    --green-medium: #7FB3A8;
+    --green-dark: #2D5A3D;
+
+    /* White Base Palette */
+    --white-pure: #FFFFFF;
+    --white-off: #FAFAFA;
+    --white-soft: #F5F5F5;
+    --white-warm: #FEFEFE;
+
+    /* Text Colors */
+    --text-charcoal: #2C3E50;
+    --text-dark: #34495E;
+    --text-medium: #5A6C7D;
+    --text-light: #8B9AAB;
+    --text-white: #FFFFFF;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, var(--green-mint) 0%, var(--green-sage) 100%);
+    --gradient-hero: linear-gradient(135deg, rgba(168, 230, 207, 0.95) 0%, rgba(184, 212, 200, 0.9) 100%);
+    --gradient-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+    --gradient-text: linear-gradient(135deg, var(--green-forest) 0%, var(--green-jade) 100%);
+
+    /* Spacing Scale */
+    --spacing-xs: 0.5rem;    /* 8px */
+    --spacing-sm: 1rem;      /* 16px */
+    --spacing-md: 1.5rem;     /* 24px */
+    --spacing-lg: 2rem;       /* 32px */
+    --spacing-xl: 3rem;       /* 48px */
+    --spacing-2xl: 4rem;      /* 64px */
+    --spacing-3xl: 6rem;      /* 96px */
+
+    /* Typography Scale */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-ornate: 'Cinzel Decorative', 'Uncial Antiqua', serif;
+    
+    --font-size-xs: 0.75rem;      /* 12px */
+    --font-size-sm: 0.875rem;     /* 14px */
+    --font-size-base: 1rem;       /* 16px */
+    --font-size-lg: 1.125rem;      /* 18px */
+    --font-size-xl: 1.25rem;       /* 20px */
+    --font-size-2xl: 1.5rem;      /* 24px */
+    --font-size-3xl: 2rem;        /* 32px */
+    --font-size-4xl: 2.5rem;       /* 40px */
+    --font-size-5xl: 3rem;         /* 48px */
+    --font-size-6xl: 3.75rem;      /* 60px */
+
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+
+    --line-height-tight: 1.2;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.6;
+    --line-height-loose: 1.8;
+
+    /* Border Radius */
+    --radius-sm: 0.375rem;    /* 6px */
+    --radius-md: 0.5rem;      /* 8px */
+    --radius-lg: 0.75rem;     /* 12px */
+    --radius-xl: 1rem;        /* 16px */
+    --radius-2xl: 1.5rem;     /* 24px */
+    --radius-full: 9999px;
+
+    /* Shadows - Soft & Subtle */
+    --shadow-sm: 0 1px 2px 0 rgba(74, 124, 89, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(74, 124, 89, 0.1), 0 2px 4px -1px rgba(74, 124, 89, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(74, 124, 89, 0.1), 0 4px 6px -2px rgba(74, 124, 89, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(74, 124, 89, 0.1), 0 10px 10px -5px rgba(74, 124, 89, 0.04);
+    --shadow-2xl: 0 25px 50px -12px rgba(74, 124, 89, 0.25);
+    --shadow-inner: inset 0 2px 4px 0 rgba(74, 124, 89, 0.06);
+
+    /* Transitions */
+    --transition-fast: 150ms ease-in-out;
+    --transition-base: 300ms ease-in-out;
+    --transition-slow: 500ms ease-in-out;
+    --transition-bounce: 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Z-index Scale */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+}
+
+/* ============================================
+   Reset & Base Styles
+   ============================================ */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-primary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
+    color: var(--text-charcoal);
+    background-color: var(--white-pure);
+    overflow-x: hidden;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight);
+    color: var(--text-charcoal);
+    margin-bottom: var(--spacing-md);
+}
+
+h1 {
+    font-size: var(--font-size-5xl);
+    font-weight: var(--font-weight-extrabold);
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.01em;
+}
+
+h3 {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
+}
+
+h4 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+}
+
+h5 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+}
+
+h6 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-medium);
+}
+
+p {
+    margin-bottom: var(--spacing-md);
+    color: var(--text-dark);
+}
+
+a {
+    color: var(--green-forest);
+    text-decoration: none;
+    transition: color var(--transition-base);
+}
+
+a:hover {
+    color: var(--green-jade);
+}
+
+/* ============================================
+   Layout Utilities
+   ============================================ */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.container--wide {
+    max-width: 1400px;
+}
+
+.container--narrow {
+    max-width: 800px;
+}
+
+.section {
+    padding: var(--spacing-3xl) 0;
+}
+
+.section--sm {
+    padding: var(--spacing-xl) 0;
+}
+
+.section--lg {
+    padding: var(--spacing-3xl) 0 var(--spacing-2xl);
+}
+
+/* ============================================
+   Grid System
+   ============================================ */
+.grid {
+    display: grid;
+    gap: var(--spacing-lg);
+}
+
+.grid--2 {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.grid--3 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.grid--4 {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mt-xl { margin-top: var(--spacing-xl); }
+
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--white-soft);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--green-medium);
+    border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--green-forest);
+}
+

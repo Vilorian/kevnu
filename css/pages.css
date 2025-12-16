@@ -1,0 +1,405 @@
+/**
+ * Page-Specific Styles
+ */
+
+/* ============================================
+   Loading States
+   ============================================ */
+.loading-container {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+.loading-text {
+    margin-top: var(--spacing-md);
+}
+
+/* ============================================
+   Section Backgrounds
+   ============================================ */
+.section--soft-bg {
+    background: var(--white-soft);
+}
+
+.section--gradient-bg {
+    background: var(--gradient-primary);
+}
+
+.section--gradient-bg .section-header__title {
+    color: var(--text-charcoal);
+}
+
+.section--gradient-bg .section-header__subtitle {
+    color: var(--text-dark);
+}
+
+/* ============================================
+   Feature Icons
+   ============================================ */
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.feature-icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+/* ============================================
+   Testimonials
+   ============================================ */
+.testimonial-stars {
+    display: flex;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+}
+
+.testimonial-stars svg {
+    width: 20px;
+    height: 20px;
+    color: var(--green-emerald);
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.testimonial-avatar {
+    width: 48px;
+    height: 48px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-bold);
+    color: var(--green-forest);
+    flex-shrink: 0;
+}
+
+.testimonial-info {
+    flex: 1;
+}
+
+.testimonial-name {
+    font-weight: var(--font-weight-semibold);
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+.testimonial-role {
+    font-size: var(--font-size-sm);
+    color: var(--text-medium);
+    margin: 0;
+}
+
+/* ============================================
+   Auth Pages
+   ============================================ */
+.auth-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-3xl) 0;
+}
+
+.auth-card {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.auth-message {
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    display: none;
+}
+
+.auth-message--error {
+    background: #fee;
+    color: #c33;
+}
+
+.auth-message--success {
+    background: #efe;
+    color: #3c3;
+}
+
+.auth-message.show {
+    display: block;
+}
+
+.auth-link {
+    color: var(--green-forest);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+}
+
+.auth-link:hover {
+    color: var(--green-jade);
+}
+
+.auth-text {
+    color: var(--text-medium);
+}
+
+.auth-hint {
+    color: var(--text-medium);
+    font-size: var(--font-size-sm);
+}
+
+/* ============================================
+   Course Detail
+   ============================================ */
+.course-header {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    align-items: center;
+    gap: var(--spacing-3xl);
+}
+
+.course-header__image {
+    width: 100%;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+}
+
+.course-meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.course-info-list {
+    list-style: none;
+    padding: 0;
+}
+
+.course-info-item {
+    padding: var(--spacing-sm) 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--white-soft);
+}
+
+.course-info-item:last-child {
+    border-bottom: none;
+}
+
+.course-info-label {
+    color: var(--text-medium);
+}
+
+.course-info-value {
+    font-weight: var(--font-weight-semibold);
+}
+
+.course-price {
+    color: var(--green-forest);
+    font-size: var(--font-size-xl);
+}
+
+/* ============================================
+   Dashboard
+   ============================================ */
+.dashboard-header {
+    background: var(--gradient-primary);
+    padding: var(--spacing-xl) 0;
+}
+
+.dashboard-header__title {
+    color: var(--text-charcoal);
+}
+
+.dashboard-header__subtitle {
+    color: var(--text-dark);
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-3xl) var(--spacing-lg);
+}
+
+.empty-state__icon {
+    width: 100px;
+    height: 100px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-lg);
+}
+
+.empty-state__icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+/* ============================================
+   Commission Form
+   ============================================ */
+.commission-hero {
+    min-height: 400px;
+}
+
+.form-progress {
+    margin-bottom: var(--spacing-xl);
+}
+
+.form-progress__bar {
+    width: 100%;
+    height: 8px;
+    background: var(--white-soft);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.form-progress__fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+    transition: width var(--transition-slow);
+}
+
+.form-progress__info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-medium);
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
+.form-step__actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--spacing-lg);
+}
+
+/* ============================================
+   Blog
+   ============================================ */
+.blog-hero {
+    min-height: 400px;
+}
+
+.blog-card__image-placeholder {
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--green-forest);
+    font-size: var(--font-size-3xl);
+}
+
+.blog-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--white-soft);
+    font-size: var(--font-size-sm);
+    color: var(--text-medium);
+}
+
+.blog-meta__divider {
+    color: var(--text-light);
+}
+
+/* ============================================
+   Contact
+   ============================================ */
+.contact-hero {
+    min-height: 400px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.contact-info-item {
+    display: flex;
+    align-items: start;
+    gap: var(--spacing-sm);
+}
+
+.contact-info-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--green-forest);
+    flex-shrink: 0;
+}
+
+.contact-info-content strong {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+.contact-info-content p {
+    margin: 0;
+    color: var(--text-medium);
+}
+
+/* ============================================
+   Resources
+   ============================================ */
+.resources-hero {
+    min-height: 400px;
+}
+
+.resource-card__icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-md);
+}
+
+.resource-card__icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.resource-card {
+    text-align: center;
+}
+
+.resource-card .card__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.resource-card .btn {
+    margin-top: var(--spacing-md);
+}
+
