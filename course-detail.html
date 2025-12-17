@@ -11,6 +11,581 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .course-detail-page {
+            background: var(--white-soft);
+            min-height: 100vh;
+            padding-top: 120px;
+            padding-bottom: var(--spacing-10);
+        }
+
+        .course-detail-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-8);
+        }
+
+        .course-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 440px;
+            gap: 120px;
+            margin-top: var(--spacing-12);
+            align-items: start;
+        }
+
+        @media (max-width: 1200px) {
+            .course-detail-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-6);
+            }
+            
+            .course-sidebar {
+                position: relative !important;
+                top: 0 !important;
+            }
+        }
+
+        .course-main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 48px;
+        }
+
+        .course-sidebar {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+
+        .course-header-section {
+            background: linear-gradient(135deg, var(--green-50) 0%, var(--white-pure) 100%);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-12) var(--spacing-10);
+            margin-bottom: var(--spacing-10);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .course-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-2xl);
+            padding-bottom: var(--spacing-lg);
+        }
+
+        .course-breadcrumb a {
+            color: var(--green-emerald);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .course-breadcrumb a:hover {
+            color: var(--green-600);
+            text-decoration: underline;
+        }
+
+        .course-title-large {
+            font-size: 2.75rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-2xl);
+            line-height: 1.5;
+            letter-spacing: -0.005em;
+            word-spacing: 0.05em;
+        }
+
+        .course-instructor-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-2xl);
+            padding: var(--spacing-2xl);
+            background: var(--white-pure);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .instructor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-full);
+            background: linear-gradient(135deg, var(--green-400) 0%, var(--green-600) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--white-pure);
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+        }
+
+        .instructor-info h3 {
+            margin: 0 0 var(--spacing-xl) 0;
+            font-size: var(--font-size-xl);
+            color: var(--text-primary);
+            font-weight: var(--font-weight-semibold);
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            word-spacing: 0.05em;
+        }
+
+        .instructor-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background: var(--green-100);
+            color: var(--green-700);
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            margin-top: var(--spacing-sm);
+        }
+        
+        .instructor-badge svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .course-stats {
+            display: flex;
+            gap: 120px;
+            flex-wrap: wrap;
+            margin-bottom: 0;
+            padding-top: var(--spacing-xl);
+        }
+
+        .course-stat {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xl);
+            color: var(--text-medium);
+            font-size: var(--font-size-base);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            padding: var(--spacing-md) var(--spacing-xl);
+        }
+
+        .course-stat svg {
+            color: var(--green-emerald);
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .course-stat strong {
+            color: var(--text-primary);
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-size-lg);
+            margin-left: var(--spacing-md);
+            letter-spacing: 0.01em;
+        }
+        
+        .course-stat span {
+            margin-left: var(--spacing-sm);
+            letter-spacing: 0.01em;
+        }
+
+        .info-section {
+            background: var(--white-pure);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-8);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .info-section-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-2xl);
+            padding-bottom: var(--spacing-xl);
+            border-bottom: 3px solid var(--green-100);
+            letter-spacing: -0.005em;
+            line-height: 1.4;
+        }
+
+        .info-section-content {
+            line-height: 2.5;
+            color: var(--text-medium);
+            font-size: var(--font-size-base);
+            letter-spacing: 0.02em;
+            word-spacing: 0.1em;
+        }
+
+        .info-section-content p {
+            margin: 0 0 32px 0;
+        }
+
+        .info-section-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .info-section-content p + p {
+            margin-top: 32px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: start;
+            gap: 32px;
+            padding: 28px;
+            background: var(--green-50);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--green-emerald);
+            transition: all 0.2s ease;
+        }
+
+        .feature-item:hover {
+            background: var(--green-100);
+            transform: translateX(4px);
+        }
+
+        .feature-item svg {
+            flex-shrink: 0;
+            margin-top: 8px;
+            color: var(--green-emerald);
+            width: 32px;
+            height: 32px;
+        }
+
+        .feature-item strong {
+            display: block;
+            font-size: var(--font-size-base);
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-weight: var(--font-weight-semibold);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            word-spacing: 0.05em;
+        }
+
+        .feature-item p {
+            margin: 16px 0 0 0;
+            font-size: var(--font-size-sm);
+            line-height: 2.2;
+            color: var(--text-medium);
+            letter-spacing: 0.02em;
+            word-spacing: 0.1em;
+        }
+        
+        .feature-item div {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex: 1;
+        }
+
+        .collapsible-section {
+            margin-top: var(--spacing-md);
+        }
+
+        .collapsible-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: var(--spacing-md);
+            background: var(--green-50);
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .collapsible-header:hover {
+            background: var(--green-100);
+        }
+
+        .collapsible-header h4 {
+            margin: 0;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .collapsible-content.open {
+            max-height: 2000px;
+        }
+
+        .collapsible-content-inner {
+            padding: var(--spacing-md);
+            padding-top: var(--spacing-md);
+        }
+
+        .pricing-card {
+            background: var(--white-pure);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-12);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            border: 2px solid var(--green-100);
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: var(--spacing-12);
+            padding-bottom: var(--spacing-10);
+            border-bottom: 2px solid var(--green-100);
+        }
+
+        .pricing-header h3 {
+            margin: 0 0 var(--spacing-lg) 0;
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 1.5;
+        }
+
+        .pricing-amount {
+            font-size: 3.5rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--green-emerald);
+            margin: var(--spacing-xl) 0;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .pricing-amount.free {
+            color: var(--green-600);
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: var(--spacing-12) 0;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .pricing-feature {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            padding: 28px;
+            color: var(--text-medium);
+            background: var(--green-50);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            line-height: 2;
+            letter-spacing: 0.02em;
+        }
+        
+        .pricing-feature svg {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+        }
+        
+        .pricing-feature span {
+            line-height: 1.8;
+            margin-left: var(--spacing-md);
+            letter-spacing: 0.02em;
+            word-spacing: 0.05em;
+        }
+
+        .pricing-feature svg {
+            color: var(--green-emerald);
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+        }
+
+        .buy-button {
+            width: 100%;
+            padding: 18px var(--spacing-2xl);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            margin-top: var(--spacing-8);
+            border-radius: var(--radius-lg);
+            transition: all 0.2s ease;
+            min-height: 52px;
+        }
+
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(34, 197, 94, 0.3);
+        }
+
+        .contact-button {
+            width: 100%;
+            padding: 18px var(--spacing-2xl);
+            margin-top: var(--spacing-lg);
+            background: var(--white-pure);
+            border: 2px solid var(--green-emerald);
+            color: var(--green-emerald);
+            border-radius: var(--radius-lg);
+            font-weight: var(--font-weight-semibold);
+            transition: all 0.2s ease;
+            min-height: 52px;
+        }
+
+        .contact-button:hover {
+            background: var(--green-50);
+            transform: translateY(-2px);
+        }
+
+        .curriculum-item {
+            padding: 28px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            transition: all 0.2s ease;
+        }
+
+        .curriculum-item:hover {
+            background: var(--green-50);
+            border-radius: var(--radius-md);
+        }
+
+        .curriculum-item:last-child {
+            border-bottom: none;
+        }
+
+        .curriculum-item-number {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-full);
+            background: linear-gradient(135deg, var(--green-400) 0%, var(--green-600) 100%);
+            color: var(--white-pure);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-xl);
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
+        }
+
+        .curriculum-item-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .curriculum-item-title {
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            font-size: var(--font-size-base);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            word-spacing: 0.05em;
+        }
+
+        .curriculum-item-duration {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-top: 12px;
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            word-spacing: 0.05em;
+        }
+
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: var(--spacing-2xl);
+        }
+
+        .why-choose-card {
+            padding: 28px;
+            background: var(--green-50);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--green-emerald);
+            transition: all 0.2s ease;
+        }
+
+        .why-choose-card:hover {
+            background: var(--green-100);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .why-choose-card h4 {
+            margin: 0 0 20px 0;
+            color: var(--text-primary);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            word-spacing: 0.05em;
+        }
+
+        .why-choose-card p {
+            margin: 20px 0 0 0;
+            color: var(--text-medium);
+            font-size: var(--font-size-base);
+            line-height: 2.2;
+            letter-spacing: 0.02em;
+            word-spacing: 0.1em;
+        }
+
+        .pricing-footer {
+            margin-top: var(--spacing-12);
+            padding-top: var(--spacing-10);
+            border-top: 2px solid var(--green-100);
+        }
+
+        .pricing-footer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+        }
+        
+        .pricing-footer-item:first-child {
+            padding-top: 32px;
+        }
+
+        .pricing-footer-item:first-child {
+            padding-top: 0;
+        }
+
+        .pricing-footer-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .pricing-footer-item span:first-child {
+            color: var(--text-secondary);
+            font-size: var(--font-size-base);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            word-spacing: 0.05em;
+        }
+
+        .pricing-footer-item strong {
+            color: var(--text-primary);
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-size-base);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            word-spacing: 0.05em;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -43,46 +618,56 @@
         </div>
     </nav>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="hero" style="min-height: 50vh; padding-top: 120px;">
-            <div class="hero-background">
-                <div class="hero-gradient"></div>
-            </div>
-            <div class="hero-content">
-                <div class="container">
-                    <div id="courseHeader" class="hero-text" style="text-align: center; max-width: 800px; margin: 0 auto;">
-                        <div class="loading-container text-center">
-                            <div class="loading"></div>
-                            <p class="loading-text">Loading course...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <main class="course-detail-page">
+        <div class="course-detail-container">
+            <div id="courseHeader"></div>
 
-        <section class="section">
-            <div class="container">
-                <div class="grid grid--2" style="gap: var(--spacing-3xl);">
-                    <div>
-                        <h2 class="section-header__title" style="text-align: left; margin-bottom: var(--spacing-lg);">Course Curriculum</h2>
-                        <div id="courseCurriculum" class="card">
-                            <div class="card__content">
-                                <p>Loading curriculum...</p>
-                            </div>
-                        </div>
+            <div class="course-detail-grid">
+                <!-- Main Content -->
+                <div class="course-main-content">
+                    <!-- About This Course -->
+                    <div id="courseAbout" class="info-section">
+                        <h2 class="info-section-title">About This Course</h2>
+                        <div id="courseDescription" class="info-section-content"></div>
+            </div>
+
+                    <!-- What's Included -->
+                    <div class="info-section">
+                        <h2 class="info-section-title">What's Included</h2>
+                        <ul id="whatsIncluded" class="feature-list"></ul>
                     </div>
 
-                    <div>
-                        <div id="courseSidebar">
-                            <div class="loading-container text-center">
-                                <div class="loading"></div>
-                            </div>
-                        </div>
+                    <!-- What You'll Learn -->
+                    <div class="info-section">
+                        <h2 class="info-section-title">What You'll Learn</h2>
+                        <ul id="whatYoullLearn" class="feature-list"></ul>
+            </div>
+
+                    <!-- Course Curriculum -->
+                    <div class="info-section">
+                        <h2 class="info-section-title">Course Curriculum</h2>
+                        <div id="courseCurriculum" style="margin-top: var(--spacing-xl);"></div>
+                    </div>
+                        
+                    <!-- Why Choose This Course -->
+                    <div class="info-section">
+                        <h2 class="info-section-title">Why Choose This Course?</h2>
+                        <div id="whyChoose" class="why-choose-grid"></div>
+                    </div>
+
+                    <!-- Course Requirements -->
+                    <div class="info-section">
+                        <h2 class="info-section-title">Course Requirements</h2>
+                        <ul id="courseRequirements" class="feature-list"></ul>
                     </div>
                 </div>
+
+                <!-- Sidebar -->
+                <div class="course-sidebar">
+                    <div id="courseSidebar" class="pricing-card"></div>
+                </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer class="footer">
@@ -98,32 +683,6 @@
                         Professional web development and UI/UX design courses. 
                         Learn from experts and transform your career.
                     </p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link" aria-label="Facebook">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Twitter">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="LinkedIn">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Instagram">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                            </svg>
-                        </a>
-                    </div>
                 </div>
                 
                 <div class="footer-section">
@@ -134,27 +693,6 @@
                         <li><a href="commission.html">Commission</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3 class="footer-heading">Courses</h3>
-                    <ul class="footer-links">
-                        <li><a href="courses.html?category=web-development">Web Development</a></li>
-                        <li><a href="courses.html?category=ui-ux-design">UI/UX Design</a></li>
-                        <li><a href="courses.html?category=full-stack">Full Stack</a></li>
-                        <li><a href="courses.html?category=frontend">Frontend</a></li>
-                        <li><a href="courses.html?category=backend">Backend</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3 class="footer-heading">Resources</h3>
-                    <ul class="footer-links">
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="resources.html">Resources</a></li>
-                        <li><a href="support.html">Support</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
                     </ul>
                 </div>
             </div>
@@ -169,7 +707,191 @@
 
     <script src="js/main.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async function() {
+        // Placeholder courses data
+        const placeholderCourses = [
+            {
+                id: 1,
+                title: 'Web Development Bootcamp Part 1',
+                category: 'web-development',
+                description: 'Master HTML and CSS fundamentals. Learn to build beautiful, responsive websites from scratch. Perfect for beginners starting their web development journey. This comprehensive course covers everything from basic HTML structure to advanced CSS techniques including Flexbox, Grid, and responsive design principles. You\'ll build multiple real-world projects and gain hands-on experience with modern web development practices. By the end of this course, you\'ll be able to create professional, responsive websites that look great on any device.',
+                short_description: 'Master HTML and CSS fundamentals. Learn to build beautiful, responsive websites from scratch.',
+                price: 0.00,
+                slug: 'web-development-bootcamp-part-1',
+                instructor_name: 'Kevin',
+                rating: 4.8,
+                duration: 12,
+                difficulty: 'beginner',
+                students: 1250,
+                lessons: 45
+            },
+            {
+                id: 2,
+                title: 'Javascript fundamentals, Website Development Bootcamp Part 2',
+                category: 'web-development',
+                description: 'Learn JavaScript from the ground up. Master variables, functions, DOM manipulation, and modern ES6+ features. Build interactive web applications. This course takes you from JavaScript basics to advanced concepts including closures, promises, async/await, and modern JavaScript patterns. You\'ll build real-world projects like interactive calculators, dynamic web apps, and more.',
+                short_description: 'Learn JavaScript from the ground up. Master variables, functions, DOM manipulation, and modern ES6+ features.',
+                price: 20.00,
+                slug: 'javascript-fundamentals-part-2',
+                instructor_name: 'Kevin',
+                rating: 4.9,
+                duration: 15,
+                difficulty: 'beginner',
+                students: 980,
+                lessons: 52
+            },
+            {
+                id: 3,
+                title: 'React/TypeScript, Website Development Bootcamp Part 3',
+                category: 'web-development',
+                description: 'Master React and TypeScript to build modern, type-safe web applications. Learn component architecture, hooks, state management, and advanced TypeScript patterns. Build production-ready applications with best practices.',
+                short_description: 'Master React and TypeScript to build modern, type-safe web applications.',
+                price: 80.00,
+                slug: 'react-typescript-part-3',
+                instructor_name: 'Kevin',
+                rating: 4.9,
+                duration: 20,
+                difficulty: 'intermediate',
+                students: 750,
+                lessons: 68
+            },
+            {
+                id: 4,
+                title: 'PHP, Website Development Bootcamp Part 4',
+                category: 'backend',
+                description: 'Learn PHP server-side programming. Master PHP syntax, functions, object-oriented programming, and build dynamic web applications with PHP. Understand server-side logic, database connections, and security best practices.',
+                short_description: 'Learn PHP server-side programming. Master PHP syntax, functions, object-oriented programming.',
+                price: 100.00,
+                slug: 'php-part-4',
+                instructor_name: 'Kevin',
+                rating: 4.7,
+                duration: 18,
+                difficulty: 'intermediate',
+                students: 620,
+                lessons: 55
+            },
+            {
+                id: 5,
+                title: 'SQL and Databases, Website Development Bootcamp Part 5',
+                category: 'backend',
+                description: 'Master SQL and database management. Learn to design databases, write complex queries, optimize performance, and work with MySQL, PostgreSQL, and more. Understand database normalization, indexing, and advanced query techniques.',
+                short_description: 'Master SQL and database management. Learn to design databases, write complex queries.',
+                price: 50.00,
+                slug: 'sql-databases-part-5',
+                instructor_name: 'Kevin',
+                rating: 4.8,
+                duration: 14,
+                difficulty: 'intermediate',
+                students: 890,
+                lessons: 42
+            },
+            {
+                id: 6,
+                title: 'APIs, Website Development Bootcamp Part 6',
+                category: 'backend',
+                description: 'Learn to build and consume RESTful APIs, GraphQL, authentication, rate limiting, and API best practices. Master API design and integration patterns. Build secure, scalable APIs that follow industry standards.',
+                short_description: 'Learn to build and consume RESTful APIs, GraphQL, authentication, and API best practices.',
+                price: 300.00,
+                slug: 'apis-part-6',
+                instructor_name: 'Kevin',
+                rating: 5.0,
+                duration: 25,
+                difficulty: 'advanced',
+                students: 450,
+                lessons: 78
+            },
+            {
+                id: 7,
+                title: 'WEBGL, Website Development Bootcamp Part 7',
+                category: 'web-development',
+                description: 'Master WebGL to create stunning 3D graphics and interactive visualizations in the browser. Learn shaders, 3D rendering, and advanced graphics programming. Build immersive web experiences with 3D graphics.',
+                short_description: 'Master WebGL to create stunning 3D graphics and interactive visualizations in the browser.',
+                price: 200.00,
+                slug: 'webgl-part-7',
+                instructor_name: 'Kevin',
+                rating: 4.6,
+                duration: 22,
+                difficulty: 'advanced',
+                students: 320,
+                lessons: 65
+            },
+            {
+                id: 8,
+                title: 'UI/UX Design Series 1',
+                category: 'ui-ux-design',
+                description: 'Learn the fundamentals of UI/UX design. Master design principles, user research, wireframing, and create beautiful user interfaces. Understand color theory, typography, spacing, and how to create designs that users love.',
+                short_description: 'Learn the fundamentals of UI/UX design. Master design principles, user research, wireframing.',
+                price: 0.00,
+                slug: 'ui-ux-design-series-1',
+                instructor_name: 'Kevin',
+                rating: 4.7,
+                duration: 10,
+                difficulty: 'beginner',
+                students: 1100,
+                lessons: 38
+            },
+            {
+                id: 9,
+                title: 'UI/UX Design Series 2',
+                category: 'ui-ux-design',
+                description: 'Advanced UI/UX design techniques. Learn prototyping, user testing, design systems, and create professional design workflows. Master tools like Figma, Sketch, and Adobe XD.',
+                short_description: 'Advanced UI/UX design techniques. Learn prototyping, user testing, design systems.',
+                price: 40.00,
+                slug: 'ui-ux-design-series-2',
+                instructor_name: 'Kevin',
+                rating: 4.8,
+                duration: 16,
+                difficulty: 'intermediate',
+                students: 680,
+                lessons: 48
+            },
+            {
+                id: 10,
+                title: 'UI/UX Design Series 3',
+                category: 'ui-ux-design',
+                description: 'Master Figma and Framer for advanced design work. Learn to create interactive prototypes, design systems, and collaborate effectively with development teams. Build production-ready design systems.',
+                short_description: 'Master Figma and Framer for advanced design work. Learn to create interactive prototypes.',
+                price: 200.00,
+                slug: 'ui-ux-design-series-3',
+                instructor_name: 'Kevin',
+                rating: 4.9,
+                duration: 20,
+                difficulty: 'advanced',
+                students: 520,
+                lessons: 58
+            },
+            {
+                id: 11,
+                title: 'Typography Series',
+                category: 'ui-ux-design',
+                description: 'Master the art of typography. Learn font selection, hierarchy, spacing, pairing, and how to create beautiful, readable text designs. Understand the psychology of typography and how it affects user experience.',
+                short_description: 'Master the art of typography. Learn font selection, hierarchy, spacing, pairing.',
+                price: 20.00,
+                slug: 'typography-series',
+                instructor_name: 'Kevin',
+                rating: 4.5,
+                duration: 8,
+                difficulty: 'beginner',
+                students: 750,
+                lessons: 28
+            },
+            {
+                id: 12,
+                title: 'Animations Series 1',
+                category: 'web-development',
+                description: 'Learn to create stunning animations and transitions. Master CSS animations, JavaScript animations, and bring your designs to life with motion. Understand animation principles, timing, and easing functions.',
+                short_description: 'Learn to create stunning animations and transitions. Master CSS animations, JavaScript animations.',
+                price: 199.00,
+                slug: 'animations-series-1',
+                instructor_name: 'Kevin',
+                rating: 4.8,
+                duration: 18,
+                difficulty: 'intermediate',
+                students: 580,
+                lessons: 50
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             const slug = urlParams.get('slug');
             
@@ -178,16 +900,11 @@
                 return;
             }
 
-            try {
-                const result = await API.getCourse(slug);
-                if (result.success && result.course) {
-                    const course = result.course;
+            const course = placeholderCourses.find(c => c.slug === slug);
+            
+            if (course) {
                     renderCourse(course);
                 } else {
-                    window.location.href = 'courses.html';
-                }
-            } catch (error) {
-                console.error('Error loading course:', error);
                 window.location.href = 'courses.html';
             }
 
@@ -195,106 +912,368 @@
         });
 
         function renderCourse(course) {
+            // Header Section
             const header = document.getElementById('courseHeader');
             header.innerHTML = `
-                <div class="fade-in">
-                    <span class="badge badge--primary mb-md">${course.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
-                    <h1 class="section-header__title" style="text-align: left; margin-bottom: var(--spacing-md);">${course.title}</h1>
-                    <p class="section-header__subtitle" style="text-align: left; margin-bottom: var(--spacing-lg);">${course.short_description || course.description}</p>
-                    <div class="course-meta-item" style="display: flex; align-items: center; gap: var(--spacing-lg); margin-bottom: var(--spacing-lg); flex-wrap: wrap;">
-                        <div class="course-meta-item">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            <span>${course.instructor_name}</span>
+                <div class="course-header-section">
+                    <div class="course-breadcrumb">
+                        <a href="index.html">Home</a> / 
+                        <a href="courses.html">Courses</a> / 
+                        <a href="courses.html?category=${course.category}">${course.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</a> / 
+                        <span>${course.title}</span>
                         </div>
-                        ${course.rating > 0 ? `
-                            <div class="course-meta-item">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color: var(--green-emerald);">
+                    <h1 class="course-title-large">${course.title}</h1>
+                    <div class="course-instructor-header">
+                        <div class="instructor-avatar">${course.instructor_name.charAt(0).toUpperCase()}</div>
+                        <div class="instructor-info">
+                            <h3>${course.instructor_name}</h3>
+                            <div class="instructor-badge">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                                 </svg>
-                                <span>${parseFloat(course.rating).toFixed(1)}</span>
+                                <span>Top Rated Instructor</span>
                             </div>
-                        ` : ''}
-                        ${course.duration ? `
-                            <div class="course-meta-item">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        </div>
+                    </div>
+                    <div class="course-stats">
+                        <div class="course-stat">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            <span><strong>${course.rating}</strong> Rating</span>
+                        </div>
+                        <div class="course-stat">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span><strong>${course.students || '1,000+'}</strong> Students</span>
+                        </div>
+                        <div class="course-stat">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <polyline points="12 6 12 12 16 14"></polyline>
                                 </svg>
-                                <span>${course.duration} hours</span>
+                            <span><strong>${course.duration}</strong> Hours</span>
                             </div>
-                        ` : ''}
+                        <div class="course-stat">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            <span><strong>${course.lessons || '40+'}</strong> Lessons</span>
                     </div>
-                    <div style="display: flex; gap: var(--spacing-md);">
-                        <button class="btn btn--primary btn--large" data-enroll="${course.id}">
-                            Enroll Now - $${parseFloat(course.price).toFixed(2)}
-                        </button>
                     </div>
-                </div>
-                <div class="fade-in fade-in-delay-2">
-                    <img src="${course.thumbnail || '/assets/images/placeholder.jpg'}" 
-                         alt="${course.title}" 
-                         class="course-header__image">
                 </div>
             `;
 
-            const sidebar = document.getElementById('courseSidebar');
-            sidebar.innerHTML = `
-                <div class="card mb-lg">
-                    <div class="card__content">
-                        <h3 class="card__title">Instructor</h3>
-                        <div style="display: flex; align-items: center; gap: var(--spacing-md); margin-bottom: var(--spacing-md);">
-                            ${course.instructor_avatar ? `
-                                <img src="${course.instructor_avatar}" alt="${course.instructor_name}" style="width: 64px; height: 64px; border-radius: var(--radius-full); object-fit: cover;">
-                            ` : `
-                                <div style="width: 64px; height: 64px; background: var(--gradient-primary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-weight: var(--font-weight-bold); color: var(--green-forest); font-size: var(--font-size-xl);">
-                                    ${course.instructor_name.charAt(0).toUpperCase()}
-                                </div>
-                            `}
+            // About Section - Split description into paragraphs for better spacing
+            const description = document.getElementById('courseDescription');
+            const descParts = course.description.split('. ').filter(p => p.trim().length > 0);
+            description.innerHTML = descParts.map((part, index) => {
+                const text = part.trim() + (index < descParts.length - 1 ? '.' : '');
+                return `<p style="font-size: var(--font-size-lg); line-height: 2.6; color: var(--text-medium); margin: 0 0 32px 0; letter-spacing: 0.02em; word-spacing: 0.1em;">${text}</p>`;
+            }).join('') + '<p style="margin-bottom: 0 !important;"></p>';
+
+            // What's Included
+            const whatsIncluded = document.getElementById('whatsIncluded');
+            whatsIncluded.innerHTML = `
+                <li class="feature-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
                             <div>
-                                <strong>${course.instructor_name}</strong>
-                            </div>
-                        </div>
-                        ${course.instructor_bio ? `<p style="color: var(--text-medium);">${course.instructor_bio}</p>` : ''}
+                        <strong>${course.lessons || '40+'} Comprehensive Lessons</strong>
+                        <p style="margin: var(--spacing-md) 0 0 0; color: var(--text-medium); font-size: var(--font-size-sm);">
+                            Detailed text-based content with visual representations, diagrams, and illustrations covering all course topics
+                        </p>
+                    </div>
+                            </li>
+                <li class="feature-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <div>
+                        <strong>Visual Learning Materials</strong>
+                        <p style="margin: var(--spacing-md) 0 0 0; color: var(--text-medium); font-size: var(--font-size-sm);">
+                            Interactive diagrams, code examples, and visual guides to help you understand concepts better
+                        </p>
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <div>
+                        <strong>Lifetime Access</strong>
+                        <p style="margin: var(--spacing-md) 0 0 0; color: var(--text-medium); font-size: var(--font-size-sm);">
+                            Access course materials forever, including future updates
+                        </p>
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                    <div>
+                        <strong>Downloadable Resources</strong>
+                        <p style="margin: var(--spacing-md) 0 0 0; color: var(--text-medium); font-size: var(--font-size-sm);">
+                            Source code, project files, and additional learning materials
+                        </p>
+                    </div>
+                            </li>
+                <li class="feature-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                    <div>
+                        <strong>Certificate of Completion</strong>
+                        <p style="margin: var(--spacing-md) 0 0 0; color: var(--text-medium); font-size: var(--font-size-sm);">
+                            Earn a certificate to showcase your new skills
+                        </p>
+                    </div>
+                            </li>
+                <li class="feature-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                    <div>
+                        <strong>Community Support</strong>
+                        <p style="margin: var(--spacing-md) 0 0 0; color: var(--text-medium); font-size: var(--font-size-sm);">
+                            Join our community of learners and get help when you need it
+                        </p>
+                    </div>
+                            </li>
+            `;
+
+            // What You'll Learn
+            const whatYoullLearn = document.getElementById('whatYoullLearn');
+            const learningPoints = getLearningPoints(course);
+            whatYoullLearn.innerHTML = learningPoints.map(point => `
+                <li class="feature-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                    <span>${point}</span>
+                            </li>
+            `).join('');
+
+            // Curriculum
+            const curriculum = document.getElementById('courseCurriculum');
+            const modules = getCourseModules(course);
+            curriculum.innerHTML = modules.map((module, index) => `
+                <div class="curriculum-item">
+                    <div class="curriculum-item-number">${index + 1}</div>
+                    <div class="curriculum-item-content">
+                        <div class="curriculum-item-title">${module.title}</div>
+                        <div class="curriculum-item-duration">${module.lessons} lessons • ${module.duration} hours</div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card__content">
-                        <h3 class="card__title">Course Details</h3>
-                        <ul class="course-info-list">
-                            <li class="course-info-item">
-                                <span class="course-info-label">Category</span>
-                                <strong class="course-info-value">${course.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</strong>
-                            </li>
-                            <li class="course-info-item">
-                                <span class="course-info-label">Difficulty</span>
-                                <strong class="course-info-value">${course.difficulty.charAt(0).toUpperCase() + course.difficulty.slice(1)}</strong>
-                            </li>
-                            ${course.duration ? `
-                                <li class="course-info-item">
-                                    <span class="course-info-label">Duration</span>
-                                    <strong class="course-info-value">${course.duration} hours</strong>
-                                </li>
-                            ` : ''}
-                            <li class="course-info-item">
-                                <span class="course-info-label">Price</span>
-                                <strong class="course-info-value course-price">$${parseFloat(course.price).toFixed(2)}</strong>
-                            </li>
-                        </ul>
-                    </div>
+            `).join('');
+
+            // Why Choose
+            const whyChoose = document.getElementById('whyChoose');
+            whyChoose.innerHTML = `
+                <div class="why-choose-card">
+                    <h4>Expert Instruction</h4>
+                    <p>Learn from industry professionals with years of real-world experience</p>
+                </div>
+                <div class="why-choose-card">
+                    <h4>Hands-On Projects</h4>
+                    <p>Build real projects that you can add to your portfolio</p>
+                </div>
+                <div class="why-choose-card">
+                    <h4>Modern Curriculum</h4>
+                    <p>Stay up-to-date with the latest technologies and best practices</p>
+                </div>
+                <div class="why-choose-card">
+                    <h4>24/7 Support</h4>
+                    <p>Get help whenever you need it from our community and instructors</p>
                 </div>
             `;
 
-            const curriculum = document.getElementById('courseCurriculum');
-            curriculum.innerHTML = `
-                <div class="card__content">
-                    <p>Course curriculum coming soon.</p>
+            // Requirements
+            const requirements = document.getElementById('courseRequirements');
+            requirements.innerHTML = `
+                <li class="feature-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                                <span>Basic computer skills and internet connection</span>
+                            </li>
+                <li class="feature-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                                <span>Dedication and willingness to learn</span>
+                            </li>
+                <li class="feature-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
+                    <span>${course.difficulty === 'beginner' ? 'No prior experience required - perfect for beginners' : 'Some basic knowledge recommended'}</span>
+                            </li>
+            `;
+
+            // Sidebar Pricing
+            const sidebar = document.getElementById('courseSidebar');
+            const vatAmount = course.price * 0.20;
+            const processingFee = course.price * 0.025;
+            const total = course.price + vatAmount + processingFee;
+            
+            sidebar.innerHTML = `
+                <div class="pricing-header">
+                    <h3 style="margin: 0 0 var(--spacing-sm) 0; font-size: var(--font-size-lg);">Course Price</h3>
+                    <div class="pricing-amount ${course.price === 0 ? 'free' : ''}">
+                        ${course.price === 0 ? 'FREE' : '$' + course.price.toFixed(2)}
+                    </div>
+                    ${course.price > 0 ? `
+                        <div style="font-size: var(--font-size-sm); color: var(--text-secondary); margin-top: var(--spacing-sm);">
+                            + VAT (20%) & Processing Fee (2.5%)
+                        </div>
+                        <div style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--green-emerald); margin-top: var(--spacing-md);">
+                            Total: $${total.toFixed(2)}
+                        </div>
+                    ` : ''}
+                </div>
+                
+                <ul class="pricing-features">
+                    <li class="pricing-feature">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>Lifetime Access</span>
+                    </li>
+                    <li class="pricing-feature">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>${course.lessons || '40+'} Text & Visual Lessons</span>
+                    </li>
+                    <li class="pricing-feature">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>Visual Learning Materials</span>
+                    </li>
+                    <li class="pricing-feature">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>Certificate of Completion</span>
+                    </li>
+                    <li class="pricing-feature">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>Downloadable Resources</span>
+                    </li>
+                    <li class="pricing-feature">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>Community Support</span>
+                    </li>
+                </ul>
+                
+                ${course.price === 0 ? `
+                    <button class="btn btn-primary buy-button" onclick="enrollFreeCourse('${course.slug}')">
+                        Enroll for Free
+                    </button>
+                ` : `
+                    <a href="checkout.html?course=${course.id}&slug=${course.slug}" class="btn btn-primary buy-button">
+                        Buy the Course - $${total.toFixed(2)}
+                    </a>
+                `}
+                
+                <button class="btn contact-button" onclick="window.location.href='contact.html'">
+                    Contact Instructor
+                </button>
+                
+                <div class="pricing-footer">
+                    <div class="pricing-footer-item">
+                        <span>Delivery</span>
+                        <strong>Instant Access</strong>
+                    </div>
+                    <div class="pricing-footer-item">
+                        <span>Updates</span>
+                        <strong>Lifetime Updates</strong>
+                    </div>
                 </div>
             `;
+        }
+
+        function getLearningPoints(course) {
+            const basePoints = [
+                'Master the fundamentals and advanced concepts',
+                'Build real-world projects and applications',
+                'Learn industry best practices and standards',
+                'Get hands-on experience with practical exercises'
+            ];
+            
+            const categoryPoints = {
+                'web-development': [
+                    'Create responsive, modern websites',
+                    'Understand browser compatibility',
+                    'Optimize for performance and SEO'
+                ],
+                'backend': [
+                    'Build secure server-side applications',
+                    'Work with databases and APIs',
+                    'Implement authentication and authorization'
+                ],
+                'ui-ux-design': [
+                    'Design beautiful user interfaces',
+                    'Create user-centered experiences',
+                    'Master design tools and workflows'
+                ]
+            };
+            
+            return [...basePoints, ...(categoryPoints[course.category] || [])];
+        }
+
+        function getCourseModules(course) {
+            const moduleCount = Math.floor((course.lessons || 40) / 8);
+            const modules = [];
+            
+            for (let i = 1; i <= moduleCount; i++) {
+                modules.push({
+                    title: `Module ${i}: ${getModuleTitle(course, i)}`,
+                    lessons: Math.floor((course.lessons || 40) / moduleCount),
+                    duration: Math.floor((course.duration || 10) / moduleCount)
+                });
+            }
+            
+            return modules;
+        }
+
+        function getModuleTitle(course, index) {
+            const titles = {
+                'web-development': ['Introduction to Web Development', 'HTML Fundamentals', 'CSS Styling', 'Responsive Design', 'Advanced Techniques'],
+                'backend': ['Backend Basics', 'Server Setup', 'Database Integration', 'API Development', 'Security & Deployment'],
+                'ui-ux-design': ['Design Principles', 'User Research', 'Wireframing', 'Prototyping', 'Design Systems']
+            };
+            
+            const categoryTitles = titles[course.category] || ['Introduction', 'Fundamentals', 'Advanced Topics', 'Projects', 'Final Project'];
+            return categoryTitles[index - 1] || `Topic ${index}`;
+        }
+
+        function enrollFreeCourse(slug) {
+            if (confirm('Would you like to enroll in this free course?')) {
+                alert('Successfully enrolled! Redirecting to dashboard...');
+                window.location.href = 'dashboard.html';
+            }
         }
     </script>
 </body>
 </html>
-

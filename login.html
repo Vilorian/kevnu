@@ -82,28 +82,83 @@
     </main>
 
     <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorDiv = document.getElementById('errorMessage');
-            const successDiv = document.getElementById('successMessage');
-            
-            errorDiv.style.display = 'none';
-            successDiv.style.display = 'none';
-
-            const result = await authManager.login(email, password);
-            if (result === true) {
-                successDiv.textContent = 'Login successful! Redirecting...';
-                successDiv.classList.add('show');
-                setTimeout(() => {
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Wait for authManager to be available
+            if (typeof authManager !== 'undefined') {
+                const user = authManager.getUser();
+                if (user) {
                     window.location.href = 'dashboard.html';
-                }, 1000);
-            } else {
-                errorDiv.textContent = result || 'Login failed';
-                errorDiv.classList.add('show');
+                    return;
+                }
             }
+
+            // Setup login form
+            document.getElementById('loginForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const errorDiv = document.getElementById('errorMessage');
+                const successDiv = document.getElementById('successMessage');
+                
+                errorDiv.style.display = 'none';
+                successDiv.style.display = 'none';
+                errorDiv.textContent = '';
+                successDiv.textContent = '';
+
+                try {
+                    // Check for admin bypass first
+                    if (email === 'kevnu@kevnu.site' && password === 'Tankcrev#1') {
+                        const adminUser = {
+                            id: 0,
+                            name: 'Admin',
+                            email: 'kevnu@kevnu.site',
+                            role: 'admin'
+                        };
+                        if (typeof Session !== 'undefined') {
+                            Session.set('auth', adminUser);
+                        }
+                        if (typeof authManager !== 'undefined') {
+                            authManager.user = adminUser;
+                        }
+                        
+                        successDiv.textContent = 'Login successful! Redirecting...';
+                        successDiv.style.display = 'block';
+                        successDiv.classList.add('show');
+                        
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 500);
+                        return;
+                    }
+
+                    // Try normal login
+                    if (typeof authManager !== 'undefined') {
+                        const result = await authManager.login(email, password);
+                        if (result === true) {
+                            successDiv.textContent = 'Login successful! Redirecting...';
+                            successDiv.style.display = 'block';
+                            successDiv.classList.add('show');
+                            
+                            setTimeout(() => {
+                                window.location.href = 'dashboard.html';
+                            }, 500);
+                        } else {
+                            errorDiv.textContent = result || 'Invalid email or password';
+                            errorDiv.style.display = 'block';
+                            errorDiv.classList.add('show');
+                        }
+                    } else {
+                        throw new Error('Auth manager not available');
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    errorDiv.textContent = 'Invalid email or password. Please check your credentials.';
+                    errorDiv.style.display = 'block';
+                    errorDiv.classList.add('show');
+                }
+            });
         });
     </script>
 </body>

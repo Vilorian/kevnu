@@ -11,6 +11,313 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-6);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-8);
+            padding-bottom: var(--spacing-6);
+            border-bottom: 2px solid var(--green-100);
+        }
+
+        .dashboard-tabs {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-6);
+            border-bottom: 2px solid var(--green-100);
+        }
+
+        .dashboard-tab {
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-medium);
+            transition: all 0.2s ease;
+        }
+
+        .dashboard-tab.active {
+            color: var(--green-emerald);
+            border-bottom-color: var(--green-emerald);
+        }
+
+        .dashboard-tab:hover {
+            color: var(--green-emerald);
+        }
+
+        .dashboard-view {
+            display: none;
+        }
+
+        .dashboard-view.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-6);
+            margin-bottom: var(--spacing-8);
+        }
+
+        .stat-card {
+            background: var(--white-pure);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-light);
+        }
+
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .stat-card-title {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .stat-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-full);
+            background: var(--green-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green-emerald);
+        }
+
+        .stat-card-value {
+            font-size: 2.5rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-card-change {
+            font-size: var(--font-size-sm);
+            color: var(--green-emerald);
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-6);
+        }
+
+        .course-card-dashboard {
+            background: var(--white-pure);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-light);
+            transition: all 0.2s ease;
+        }
+
+        .course-card-dashboard:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .course-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .course-card-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .course-card-category {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+
+        .course-card-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .action-btn {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: var(--font-size-xs);
+            transition: all 0.2s ease;
+        }
+
+        .action-btn.edit {
+            background: var(--green-100);
+            color: var(--green-emerald);
+        }
+
+        .action-btn.delete {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .action-btn.view {
+            background: var(--green-emerald);
+            color: var(--white-pure);
+        }
+
+        .admin-controls {
+            background: var(--green-50);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6);
+            margin-bottom: var(--spacing-6);
+            border-left: 4px solid var(--green-emerald);
+        }
+
+        .admin-controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .admin-controls-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+        }
+
+        .btn-create {
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--green-emerald);
+            color: var(--white-pure);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-create:hover {
+            background: var(--green-600);
+        }
+
+        .role-view-selector {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-6);
+        }
+
+        .role-btn {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: var(--white-pure);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            font-weight: var(--font-weight-semibold);
+            transition: all 0.2s ease;
+        }
+
+        .role-btn.active {
+            background: var(--green-emerald);
+            color: var(--white-pure);
+            border-color: var(--green-emerald);
+        }
+
+        .table-container {
+            background: var(--white-pure);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: var(--spacing-md);
+            border-bottom: 2px solid var(--green-100);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+        }
+
+        .data-table td {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-medium);
+        }
+
+        .data-table tr:hover {
+            background: var(--green-50);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .badge.student {
+            background: var(--green-100);
+            color: var(--green-700);
+        }
+
+        .badge.instructor {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge.admin {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .btn--small {
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: var(--font-size-sm);
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar" id="navbar">
@@ -35,43 +342,37 @@
                 <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
             
-            <div class="nav-actions">
+            <div class="nav-actions" id="navActions">
                 <a href="login.html" class="btn btn-text">Login</a>
                 <a href="register.html" class="btn btn-primary">Get Started</a>
             </div>
         </div>
     </nav>
 
-    <section class="section" style="padding-top: 120px;">
-        <div class="container">
-            <div class="section-header">
-                <h1 class="section-title">
-                    My <span class="text-gradient">Dashboard</span>
-                </h1>
-                <p class="section-description">
-                    Manage your courses, track your progress, and continue learning.
-                </p>
-            </div>
-            
-            <div style="text-align: center; padding: var(--spacing-12); background: var(--white-soft); border-radius: var(--radius-2xl);">
-                <div class="feature-icon" style="margin: 0 auto var(--spacing-4);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="8.5" cy="7" r="4"></circle>
-                        <path d="M20 8v6M23 11h-6"></path>
-                    </svg>
-                </div>
-                <h2 style="margin-bottom: var(--spacing-4);">Please Log In</h2>
-                <p style="color: var(--text-secondary); margin-bottom: var(--spacing-6);">
-                    You need to be logged in to access your dashboard and courses.
-                </p>
-                <div style="display: flex; gap: var(--spacing-4); justify-content: center; flex-wrap: wrap;">
-                    <a href="login.html" class="btn btn-primary">Login</a>
-                    <a href="register.html" class="btn btn-outline">Create Account</a>
+    <main class="section" style="padding-top: 120px; background: var(--white-soft); min-height: 100vh;">
+        <div class="dashboard-container">
+            <!-- Dashboard will be loaded here -->
+            <div id="dashboardContent">
+                <div style="text-align: center; padding: var(--spacing-12); background: var(--white-pure); border-radius: var(--radius-2xl);">
+                    <div class="feature-icon" style="margin: 0 auto var(--spacing-4);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <path d="M20 8v6M23 11h-6"></path>
+                        </svg>
+                    </div>
+                    <h2 style="margin-bottom: var(--spacing-4);">Please Log In</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: var(--spacing-6);">
+                        You need to be logged in to access your dashboard and courses.
+                    </p>
+                    <div style="display: flex; gap: var(--spacing-4); justify-content: center; flex-wrap: wrap;">
+                        <a href="login.html" class="btn btn-primary">Login</a>
+                        <a href="register.html" class="btn btn-outline">Create Account</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
     <footer class="footer">
         <div class="container">
@@ -86,67 +387,8 @@
                         Professional web development and UI/UX design courses. 
                         Learn from experts and transform your career.
                     </p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link" aria-label="Facebook">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Twitter">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="LinkedIn">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Instagram">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h3 class="footer-heading">Menu</h3>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="courses.html">Courses</a></li>
-                        <li><a href="commission.html">Commission</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3 class="footer-heading">Courses</h3>
-                    <ul class="footer-links">
-                        <li><a href="courses.html?category=web-development">Web Development</a></li>
-                        <li><a href="courses.html?category=ui-ux-design">UI/UX Design</a></li>
-                        <li><a href="courses.html?category=full-stack">Full Stack</a></li>
-                        <li><a href="courses.html?category=frontend">Frontend</a></li>
-                        <li><a href="courses.html?category=backend">Backend</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3 class="footer-heading">Resources</h3>
-                    <ul class="footer-links">
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="resources.html">Resources</a></li>
-                        <li><a href="support.html">Support</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                    </ul>
                 </div>
             </div>
-            
             <div class="footer-bottom">
                 <p class="footer-copyright">
                     &copy; <span id="currentYear"></span> Kevnu. All rights reserved.
@@ -156,9 +398,1035 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Placeholder courses data
+        const placeholderCourses = [
+            {
+                id: 1,
+                title: 'Web Development Bootcamp Part 1',
+                category: 'web-development',
+                price: 0.00,
+                slug: 'web-development-bootcamp-part-1',
+                students: 1250,
+                rating: 4.8
+            },
+            {
+                id: 2,
+                title: 'Javascript fundamentals, Website Development Bootcamp Part 2',
+                category: 'web-development',
+                price: 20.00,
+                slug: 'javascript-fundamentals-part-2',
+                students: 980,
+                rating: 4.9
+            },
+            {
+                id: 3,
+                title: 'React/TypeScript, Website Development Bootcamp Part 3',
+                category: 'web-development',
+                price: 80.00,
+                slug: 'react-typescript-part-3',
+                students: 750,
+                rating: 4.9
+            },
+            {
+                id: 4,
+                title: 'PHP, Website Development Bootcamp Part 4',
+                category: 'backend',
+                price: 100.00,
+                slug: 'php-part-4',
+                students: 620,
+                rating: 4.7
+            },
+            {
+                id: 5,
+                title: 'SQL and Databases, Website Development Bootcamp Part 5',
+                category: 'backend',
+                price: 50.00,
+                slug: 'sql-databases-part-5',
+                students: 890,
+                rating: 4.8
+            },
+            {
+                id: 6,
+                title: 'APIs, Website Development Bootcamp Part 6',
+                category: 'backend',
+                price: 300.00,
+                slug: 'apis-part-6',
+                students: 450,
+                rating: 5.0
+            },
+            {
+                id: 7,
+                title: 'WEBGL, Website Development Bootcamp Part 7',
+                category: 'web-development',
+                price: 200.00,
+                slug: 'webgl-part-7',
+                students: 320,
+                rating: 4.6
+            },
+            {
+                id: 8,
+                title: 'UI/UX Design Series 1',
+                category: 'ui-ux-design',
+                price: 0.00,
+                slug: 'ui-ux-design-series-1',
+                students: 1100,
+                rating: 4.7
+            },
+            {
+                id: 9,
+                title: 'UI/UX Design Series 2',
+                category: 'ui-ux-design',
+                price: 40.00,
+                slug: 'ui-ux-design-series-2',
+                students: 680,
+                rating: 4.8
+            },
+            {
+                id: 10,
+                title: 'UI/UX Design Series 3',
+                category: 'ui-ux-design',
+                price: 200.00,
+                slug: 'ui-ux-design-series-3',
+                students: 520,
+                rating: 4.9
+            },
+            {
+                id: 11,
+                title: 'Typography Series',
+                category: 'ui-ux-design',
+                price: 20.00,
+                slug: 'typography-series',
+                students: 750,
+                rating: 4.5
+            },
+            {
+                id: 12,
+                title: 'Animations Series 1',
+                category: 'web-development',
+                price: 199.00,
+                slug: 'animations-series-1',
+                students: 580,
+                rating: 4.8
+            }
+        ];
+
+        let currentRoleView = 'admin';
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadDashboard();
+        });
+
+        async function loadDashboard() {
+            const dashboardContent = document.getElementById('dashboardContent');
+            const navActions = document.getElementById('navActions');
+
+            // Check session first
+            let user = null;
+            const authData = Session.get('auth');
+            
+            if (authData) {
+                user = authData;
+                if (typeof authManager !== 'undefined') {
+                    authManager.user = authData;
+                }
+            } else if (typeof authManager !== 'undefined') {
+                user = authManager.getUser();
+            }
+
+            if (!user) {
+                dashboardContent.innerHTML = `
+                    <div style="text-align: center; padding: var(--spacing-12); background: var(--white-pure); border-radius: var(--radius-2xl);">
+                        <div class="feature-icon" style="margin: 0 auto var(--spacing-4);">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <path d="M20 8v6M23 11h-6"></path>
+                            </svg>
+                        </div>
+                        <h2 style="margin-bottom: var(--spacing-4);">Please Log In</h2>
+                        <p style="color: var(--text-secondary); margin-bottom: var(--spacing-6);">
+                            You need to be logged in to access your dashboard and courses.
+                        </p>
+                        <div style="display: flex; gap: var(--spacing-4); justify-content: center; flex-wrap: wrap;">
+                            <a href="login.html" class="btn btn-primary">Login</a>
+                            <a href="register.html" class="btn btn-outline">Create Account</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            renderDashboard(user);
+            
+            // Load coupons if admin
+            if (user && user.role === 'admin') {
+                setTimeout(() => {
+                    if (document.getElementById('couponsTab') && document.getElementById('couponsTab').classList.contains('active')) {
+                        loadCoupons();
+                    }
+                }, 100);
+            }
+        }
+
+        function renderDashboard(user) {
+            const dashboardContent = document.getElementById('dashboardContent');
+            const navActions = document.getElementById('navActions');
+
+            // Update nav
+            navActions.innerHTML = `
+                <span style="margin-right: var(--spacing-md); color: var(--text-medium);">${user.name}</span>
+                <button class="btn btn-text" onclick="authManager.logout(); window.location.reload();">Logout</button>
+            `;
+
+            if (user.role === 'admin') {
+                renderAdminDashboard(user);
+            } else {
+                renderStudentDashboard(user);
+            }
+        }
+
+        function renderAdminDashboard(user) {
+            const dashboardContent = document.getElementById('dashboardContent');
+            
+            dashboardContent.innerHTML = `
+                <div class="dashboard-header">
+                    <div>
+                        <h1 class="section-title">Admin <span class="text-gradient">Dashboard</span></h1>
+                        <p class="section-description">Manage courses, users, and view analytics</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: var(--spacing-md);">
+                        <span class="badge admin">Admin</span>
+                    </div>
+                </div>
+
+                <div class="role-view-selector">
+                    <button class="role-btn active" onclick="switchRoleView('admin')">Admin View</button>
+                    <button class="role-btn" onclick="switchRoleView('student')">Student View</button>
+                    <button class="role-btn" onclick="switchRoleView('instructor')">Instructor View</button>
+                </div>
+
+                <div class="dashboard-tabs">
+                    <button class="dashboard-tab active" onclick="switchTab('overview')">Overview</button>
+                    <button class="dashboard-tab" onclick="switchTab('courses')">Courses</button>
+                    <button class="dashboard-tab" onclick="switchTab('users')">Users</button>
+                    <button class="dashboard-tab" onclick="switchTab('coupons')">Coupon Codes</button>
+                    <button class="dashboard-tab" onclick="switchTab('analytics')">Analytics</button>
+                </div>
+
+                <!-- Overview Tab -->
+                <div id="overviewTab" class="dashboard-view active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-title">Total Courses</div>
+                                <div class="stat-card-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="stat-card-value">${placeholderCourses.length}</div>
+                            <div class="stat-card-change">+2 this month</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-title">Total Students</div>
+                                <div class="stat-card-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="stat-card-value">${placeholderCourses.reduce((sum, c) => sum + c.students, 0).toLocaleString()}</div>
+                            <div class="stat-card-change">+15% this month</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-title">Total Revenue</div>
+                                <div class="stat-card-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="stat-card-value">$${placeholderCourses.reduce((sum, c) => sum + (c.price * c.students), 0).toLocaleString()}</div>
+                            <div class="stat-card-change">+8% this month</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-title">Avg. Rating</div>
+                                <div class="stat-card-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="stat-card-value">${(placeholderCourses.reduce((sum, c) => sum + c.rating, 0) / placeholderCourses.length).toFixed(1)}</div>
+                            <div class="stat-card-change">Excellent</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Courses Tab -->
+                <div id="coursesTab" class="dashboard-view">
+                    <div class="admin-controls">
+                        <div class="admin-controls-header">
+                            <div class="admin-controls-title">Course Management</div>
+                            <button class="btn-create" onclick="createCourse()">+ Create New Course</button>
+                        </div>
+                    </div>
+
+                    <div class="courses-grid" id="coursesList">
+                        ${placeholderCourses.map(course => `
+                            <div class="course-card-dashboard">
+                                <div class="course-card-header">
+                                    <div>
+                                        <div class="course-card-title">${course.title}</div>
+                                        <div class="course-card-category">${course.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
+                                    </div>
+                                    <div class="course-card-actions">
+                                        <button class="action-btn edit" onclick="editCourse(${course.id})" title="Edit">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                            </svg>
+                                        </button>
+                                        <button class="action-btn delete" onclick="deleteCourse(${course.id})" title="Delete">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="3 6 5 6 21 6"></polyline>
+                                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                            </svg>
+                                        </button>
+                                        <a href="course-detail.html?slug=${course.slug}" class="action-btn view" title="View">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div style="margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid var(--border-light);">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-sm);">
+                                        <span style="font-size: var(--font-size-sm); color: var(--text-secondary);">Price:</span>
+                                        <strong style="color: var(--green-emerald);">$${course.price.toFixed(2)}</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-sm);">
+                                        <span style="font-size: var(--font-size-sm); color: var(--text-secondary);">Students:</span>
+                                        <strong>${course.students.toLocaleString()}</strong>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="font-size: var(--font-size-sm); color: var(--text-secondary);">Rating:</span>
+                                        <strong>${course.rating} ⭐</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Users Tab -->
+                <div id="usersTab" class="dashboard-view">
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>John Doe</td>
+                                    <td>john@example.com</td>
+                                    <td><span class="badge student">Student</span></td>
+                                    <td>2024-01-15</td>
+                                    <td>
+                                        <button class="action-btn edit" onclick="editUser(1)">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Jane Smith</td>
+                                    <td>jane@example.com</td>
+                                    <td><span class="badge instructor">Instructor</span></td>
+                                    <td>2024-02-20</td>
+                                    <td>
+                                        <button class="action-btn edit" onclick="editUser(2)">Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>Admin</td>
+                                    <td>kevnu@kevnu.site</td>
+                                    <td><span class="badge admin">Admin</span></td>
+                                    <td>2024-01-01</td>
+                                    <td>
+                                        <span style="color: var(--text-secondary); font-size: var(--font-size-sm);">System</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Coupon Codes Tab -->
+                <div id="couponsTab" class="dashboard-view">
+                    <div class="admin-controls">
+                        <div class="admin-controls-header">
+                            <div class="admin-controls-title">Coupon Code Management</div>
+                            <button class="btn-create" onclick="openCouponModal()">+ Create New Coupon</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Discount</th>
+                                    <th>Type</th>
+                                    <th>Valid From</th>
+                                    <th>Valid Until</th>
+                                    <th>Usage Limit</th>
+                                    <th>Used</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="couponsTableBody">
+                                <!-- Coupons will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analyticsTab" class="dashboard-view">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-title">Course Completion Rate</div>
+                            </div>
+                            <div class="stat-card-value">68%</div>
+                            <div class="stat-card-change">+5% this month</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-title">Active Learners</div>
+                            </div>
+                            <div class="stat-card-value">1,240</div>
+                            <div class="stat-card-change">+120 this week</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-title">Monthly Revenue</div>
+                            </div>
+                            <div class="stat-card-value">$45,230</div>
+                            <div class="stat-card-change">+12% vs last month</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-title">New Enrollments</div>
+                            </div>
+                            <div class="stat-card-value">342</div>
+                            <div class="stat-card-change">+28 this week</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderStudentDashboard(user) {
+            const dashboardContent = document.getElementById('dashboardContent');
+            
+            // Get enrolled courses from localStorage
+            const enrolledCourses = getEnrolledCourses();
+            const enrolledCourseIds = enrolledCourses.map(e => e.courseId);
+            const myCourses = placeholderCourses.filter(c => enrolledCourseIds.includes(c.id));
+            
+            // Calculate stats
+            const totalProgress = enrolledCourses.reduce((sum, e) => sum + (e.progress || 0), 0);
+            const avgProgress = enrolledCourses.length > 0 ? Math.round(totalProgress / enrolledCourses.length) : 0;
+            
+            dashboardContent.innerHTML = `
+                <div class="dashboard-header">
+                    <div>
+                        <h1 class="section-title">My <span class="text-gradient">Dashboard</span></h1>
+                        <p class="section-description">Continue your learning journey</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-tabs">
+                    <button class="dashboard-tab active" onclick="switchTab('my-courses')">My Courses</button>
+                    <button class="dashboard-tab" onclick="switchTab('my-coupons')">My Coupon Codes</button>
+                </div>
+
+                <!-- My Courses Tab -->
+                <div id="my-coursesTab" class="dashboard-view active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-title">Enrolled Courses</div>
+                                <div class="stat-card-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="stat-card-value">${myCourses.length}</div>
+                            <div class="stat-card-change">Continue learning</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-title">Average Progress</div>
+                                <div class="stat-card-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="stat-card-value">${avgProgress}%</div>
+                            <div class="stat-card-change">Keep it up!</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-title">Certificates</div>
+                                <div class="stat-card-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="stat-card-value">${enrolledCourses.filter(e => e.progress >= 100).length}</div>
+                            <div class="stat-card-change">Earned</div>
+                        </div>
+                    </div>
+
+                    <h2 style="margin: var(--spacing-8) 0 var(--spacing-6) 0; font-size: var(--font-size-2xl);">My Enrolled Courses</h2>
+                    ${myCourses.length === 0 ? `
+                        <div style="text-align: center; padding: var(--spacing-12); background: var(--white-pure); border-radius: var(--radius-xl);">
+                            <p style="color: var(--text-secondary); margin-bottom: var(--spacing-6);">You haven't enrolled in any courses yet.</p>
+                            <a href="courses.html" class="btn btn-primary">Browse Courses</a>
+                        </div>
+                    ` : `
+                        <div class="courses-grid">
+                            ${myCourses.map(course => {
+                                const enrollment = enrolledCourses.find(e => e.courseId === course.id);
+                                const progress = enrollment ? (enrollment.progress || 0) : 0;
+                                return `
+                                    <div class="course-card-dashboard">
+                                        <div class="course-card-header">
+                                            <div>
+                                                <div class="course-card-title">${course.title}</div>
+                                                <div class="course-card-category">${course.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: var(--spacing-md);">
+                                            <div style="background: var(--green-100); border-radius: var(--radius-full); height: 8px; margin-bottom: var(--spacing-sm);">
+                                                <div style="background: var(--green-emerald); height: 100%; border-radius: var(--radius-full); width: ${progress}%; transition: width 0.3s ease;"></div>
+                                            </div>
+                                            <div style="display: flex; justify-content: space-between; align-items: center; font-size: var(--font-size-sm);">
+                                                <span style="color: var(--text-secondary);">${progress}% Complete</span>
+                                                <a href="lesson.html?course=${course.slug}" class="btn btn-primary btn--small">${progress > 0 ? 'Continue' : 'Start'}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `}
+                </div>
+
+                <!-- My Coupon Codes Tab -->
+                <div id="my-couponsTab" class="dashboard-view">
+                    <h2 style="margin-bottom: var(--spacing-6); font-size: var(--font-size-2xl);">My Coupon Codes</h2>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Discount</th>
+                                    <th>Valid Until</th>
+                                    <th>Status</th>
+                                    <th>Copy</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myCouponsTableBody">
+                                <!-- User's coupons will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            
+            // Load user's coupon codes
+            loadMyCoupons();
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.dashboard-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.dashboard-view').forEach(view => view.classList.remove('active'));
+            
+            if (event && event.target) {
+                event.target.classList.add('active');
+            } else {
+                document.querySelectorAll('.dashboard-tab').forEach(tab => {
+                    if (tab.textContent.toLowerCase().includes(tabName.toLowerCase().replace('-', ' '))) {
+                        tab.classList.add('active');
+                    }
+                });
+            }
+            
+            const tabElement = document.getElementById(tabName + 'Tab');
+            if (tabElement) {
+                tabElement.classList.add('active');
+                
+                // Load coupons when switching to coupons tab
+                if (tabName === 'coupons') {
+                    setTimeout(() => loadCoupons(), 100);
+                }
+            }
+        }
+
+        function switchRoleView(role) {
+            currentRoleView = role;
+            document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const user = authManager.getUser();
+            if (role === 'admin') {
+                renderAdminDashboard(user);
+            } else if (role === 'student') {
+                renderStudentDashboard(user);
+            } else if (role === 'instructor') {
+                renderInstructorDashboard(user);
+            }
+        }
+
+        function renderInstructorDashboard(user) {
+            const dashboardContent = document.getElementById('dashboardContent');
+            
+            dashboardContent.innerHTML = `
+                <div class="dashboard-header">
+                    <div>
+                        <h1 class="section-title">Instructor <span class="text-gradient">Dashboard</span></h1>
+                        <p class="section-description">Manage your courses and students</p>
+                    </div>
+                    <span class="badge instructor">Instructor</span>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">My Courses</div>
+                        </div>
+                        <div class="stat-card-value">5</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Total Students</div>
+                        </div>
+                        <div class="stat-card-value">1,250</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div class="stat-card-title">Avg. Rating</div>
+                        </div>
+                        <div class="stat-card-value">4.8</div>
+                    </div>
+                </div>
+
+                <h2 style="margin: var(--spacing-8) 0 var(--spacing-6) 0;">My Courses</h2>
+                <div class="courses-grid">
+                    ${placeholderCourses.slice(0, 5).map(course => `
+                        <div class="course-card-dashboard">
+                            <div class="course-card-header">
+                                <div>
+                                    <div class="course-card-title">${course.title}</div>
+                                    <div class="course-card-category">${course.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
+                                </div>
+                                <div class="course-card-actions">
+                                    <button class="action-btn edit" onclick="editCourse(${course.id})">Edit</button>
+                                    <a href="course-detail.html?slug=${course.slug}" class="action-btn view">View</a>
+                                </div>
+                            </div>
+                            <div style="margin-top: var(--spacing-md); padding-top: var(--spacing-md); border-top: 1px solid var(--border-light);">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="font-size: var(--font-size-sm); color: var(--text-secondary);">Students:</span>
+                                    <strong>${course.students.toLocaleString()}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // ============================================
+        // Enrollment Management
+        // ============================================
+        function getEnrolledCourses() {
+            const stored = localStorage.getItem('enrollments');
+            return stored ? JSON.parse(stored) : [];
+        }
+
+        function saveEnrolledCourses(enrollments) {
+            localStorage.setItem('enrollments', JSON.stringify(enrollments));
+        }
+
+        // ============================================
+        // Coupon Code Management
+        // ============================================
+        function getCouponCodes() {
+            const stored = localStorage.getItem('couponCodes');
+            return stored ? JSON.parse(stored) : [];
+        }
+
+        function saveCouponCodes(coupons) {
+            localStorage.setItem('couponCodes', JSON.stringify(coupons));
+        }
+
+        function loadCoupons() {
+            const coupons = getCouponCodes();
+            const tbody = document.getElementById('couponsTableBody');
+            if (!tbody) return;
+
+            if (coupons.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: var(--spacing-8); color: var(--text-secondary);">No coupon codes created yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = coupons.map(coupon => {
+                const now = new Date();
+                const validFrom = new Date(coupon.validFrom);
+                const validUntil = new Date(coupon.validUntil);
+                const isActive = now >= validFrom && now <= validUntil && (coupon.usageLimit === 0 || coupon.used < coupon.usageLimit);
+                const status = isActive ? 'Active' : 'Expired';
+                const statusClass = isActive ? 'badge student' : 'badge instructor';
+
+                return `
+                    <tr>
+                        <td><strong style="color: var(--green-emerald);">${coupon.code}</strong></td>
+                        <td>${coupon.discountType === 'percentage' ? `${coupon.discount}%` : `$${coupon.discount}`}</td>
+                        <td>${coupon.discountType === 'percentage' ? 'Percentage' : 'Fixed'}</td>
+                        <td>${validFrom.toLocaleDateString()}</td>
+                        <td>${validUntil.toLocaleDateString()}</td>
+                        <td>${coupon.usageLimit === 0 ? 'Unlimited' : coupon.usageLimit}</td>
+                        <td>${coupon.used || 0}</td>
+                        <td><span class="${statusClass}">${status}</span></td>
+                        <td>
+                            <button class="action-btn edit" onclick="editCoupon('${coupon.id}')" title="Edit">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteCoupon('${coupon.id}')" title="Delete">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function loadMyCoupons() {
+            const coupons = getCouponCodes();
+            const user = authManager.getUser();
+            const tbody = document.getElementById('myCouponsTableBody');
+            if (!tbody) return;
+
+            // Filter coupons that are active and available to user
+            const now = new Date();
+            const activeCoupons = coupons.filter(coupon => {
+                const validFrom = new Date(coupon.validFrom);
+                const validUntil = new Date(coupon.validUntil);
+                return now >= validFrom && now <= validUntil && (coupon.usageLimit === 0 || coupon.used < coupon.usageLimit);
+            });
+
+            if (activeCoupons.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: var(--spacing-8); color: var(--text-secondary);">No active coupon codes available</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = activeCoupons.map(coupon => {
+                const validUntil = new Date(coupon.validUntil);
+                return `
+                    <tr>
+                        <td><strong style="color: var(--green-emerald); font-size: var(--font-size-lg);">${coupon.code}</strong></td>
+                        <td><strong>${coupon.discountType === 'percentage' ? `${coupon.discount}% OFF` : `$${coupon.discount} OFF`}</strong></td>
+                        <td>${validUntil.toLocaleDateString()}</td>
+                        <td><span class="badge student">Active</span></td>
+                        <td>
+                            <button class="action-btn view" onclick="copyCouponCode('${coupon.code}')" title="Copy Code">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function copyCouponCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                alert(`Coupon code "${code}" copied to clipboard!`);
+            });
+        }
+
+        function openCouponModal(couponId = null) {
+            const coupons = getCouponCodes();
+            const coupon = couponId ? coupons.find(c => c.id === couponId) : null;
+
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;';
+            modal.innerHTML = `
+                <div style="background: var(--white-pure); border-radius: var(--radius-2xl); padding: var(--spacing-8); max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                    <h2 style="margin-bottom: var(--spacing-6);">${coupon ? 'Edit' : 'Create'} Coupon Code</h2>
+                    <form id="couponForm" onsubmit="saveCoupon(event, '${couponId || ''}')">
+                        <div style="margin-bottom: var(--spacing-4);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Coupon Code *</label>
+                            <input type="text" id="couponCode" value="${coupon ? coupon.code : ''}" required 
+                                   style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);"
+                                   placeholder="SUMMER2024">
+                        </div>
+                        <div style="margin-bottom: var(--spacing-4);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Discount Type *</label>
+                            <select id="discountType" required 
+                                    style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);">
+                                <option value="percentage" ${coupon && coupon.discountType === 'percentage' ? 'selected' : ''}>Percentage</option>
+                                <option value="fixed" ${coupon && coupon.discountType === 'fixed' ? 'selected' : ''}>Fixed Amount</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: var(--spacing-4);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Discount Value *</label>
+                            <input type="number" id="discountValue" value="${coupon ? coupon.discount : ''}" required min="0" step="0.01"
+                                   style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);"
+                                   placeholder="10">
+                        </div>
+                        <div style="margin-bottom: var(--spacing-4);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Valid From *</label>
+                            <input type="date" id="validFrom" value="${coupon ? coupon.validFrom.split('T')[0] : ''}" required
+                                   style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);">
+                        </div>
+                        <div style="margin-bottom: var(--spacing-4);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Valid Until *</label>
+                            <input type="date" id="validUntil" value="${coupon ? coupon.validUntil.split('T')[0] : ''}" required
+                                   style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);">
+                        </div>
+                        <div style="margin-bottom: var(--spacing-6);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Usage Limit (0 = unlimited)</label>
+                            <input type="number" id="usageLimit" value="${coupon ? coupon.usageLimit : '0'}" min="0"
+                                   style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);"
+                                   placeholder="0">
+                        </div>
+                        <div style="display: flex; gap: var(--spacing-md); justify-content: flex-end;">
+                            <button type="button" onclick="this.closest('.modal-overlay').remove()" 
+                                    style="padding: var(--spacing-md) var(--spacing-lg); background: var(--white-pure); border: 2px solid var(--border-light); border-radius: var(--radius-lg); cursor: pointer; font-weight: var(--font-weight-semibold);">
+                                Cancel
+                            </button>
+                            <button type="submit" 
+                                    style="padding: var(--spacing-md) var(--spacing-lg); background: var(--green-emerald); color: var(--white-pure); border: none; border-radius: var(--radius-lg); cursor: pointer; font-weight: var(--font-weight-semibold);">
+                                ${coupon ? 'Update' : 'Create'} Coupon
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.remove();
+            });
+        }
+
+        function saveCoupon(event, couponId) {
+            event.preventDefault();
+            const coupons = getCouponCodes();
+            
+            const coupon = {
+                id: couponId || 'coupon_' + Date.now(),
+                code: document.getElementById('couponCode').value.toUpperCase(),
+                discountType: document.getElementById('discountType').value,
+                discount: parseFloat(document.getElementById('discountValue').value),
+                validFrom: new Date(document.getElementById('validFrom').value).toISOString(),
+                validUntil: new Date(document.getElementById('validUntil').value).toISOString(),
+                usageLimit: parseInt(document.getElementById('usageLimit').value) || 0,
+                used: couponId ? (coupons.find(c => c.id === couponId)?.used || 0) : 0
+            };
+
+            if (couponId) {
+                const index = coupons.findIndex(c => c.id === couponId);
+                if (index !== -1) coupons[index] = coupon;
+            } else {
+                coupons.push(coupon);
+            }
+
+            saveCouponCodes(coupons);
+            event.target.closest('.modal-overlay').remove();
+            loadCoupons();
+            if (document.getElementById('myCouponsTableBody')) loadMyCoupons();
+        }
+
+        function editCoupon(couponId) {
+            openCouponModal(couponId);
+        }
+
+        function deleteCoupon(couponId) {
+            if (confirm('Are you sure you want to delete this coupon code?')) {
+                const coupons = getCouponCodes();
+                const filtered = coupons.filter(c => c.id !== couponId);
+                saveCouponCodes(filtered);
+                loadCoupons();
+                if (document.getElementById('myCouponsTableBody')) loadMyCoupons();
+            }
+        }
+
+        // ============================================
+        // Course Management
+        // ============================================
+        function createCourse() {
+            openCourseModal();
+        }
+
+        function openCourseModal(courseId = null) {
+            const course = courseId ? placeholderCourses.find(c => c.id === courseId) : null;
+
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;';
+            modal.innerHTML = `
+                <div style="background: var(--white-pure); border-radius: var(--radius-2xl); padding: var(--spacing-8); max-width: 700px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                    <h2 style="margin-bottom: var(--spacing-6);">${course ? 'Edit' : 'Create'} Course</h2>
+                    <form id="courseForm" onsubmit="saveCourse(event, ${courseId || 'null'})">
+                        <div style="margin-bottom: var(--spacing-4);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Course Title *</label>
+                            <input type="text" id="courseTitle" value="${course ? course.title : ''}" required
+                                   style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);"
+                                   placeholder="Web Development Bootcamp">
+                        </div>
+                        <div style="margin-bottom: var(--spacing-4);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Category *</label>
+                            <select id="courseCategory" required
+                                    style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);">
+                                <option value="web-development" ${course && course.category === 'web-development' ? 'selected' : ''}>Web Development</option>
+                                <option value="ui-ux-design" ${course && course.category === 'ui-ux-design' ? 'selected' : ''}>UI/UX Design</option>
+                                <option value="backend" ${course && course.category === 'backend' ? 'selected' : ''}>Backend</option>
+                                <option value="frontend" ${course && course.category === 'frontend' ? 'selected' : ''}>Frontend</option>
+                                <option value="full-stack" ${course && course.category === 'full-stack' ? 'selected' : ''}>Full Stack</option>
+                            </select>
+                        </div>
+                        <div style="margin-bottom: var(--spacing-4);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Price ($) *</label>
+                            <input type="number" id="coursePrice" value="${course ? course.price : ''}" required min="0" step="0.01"
+                                   style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);"
+                                   placeholder="99.99">
+                        </div>
+                        <div style="margin-bottom: var(--spacing-4);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Slug *</label>
+                            <input type="text" id="courseSlug" value="${course ? course.slug : ''}" required
+                                   style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);"
+                                   placeholder="web-development-bootcamp">
+                        </div>
+                        <div style="margin-bottom: var(--spacing-4);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Rating</label>
+                            <input type="number" id="courseRating" value="${course ? course.rating : '4.5'}" min="0" max="5" step="0.1"
+                                   style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);">
+                        </div>
+                        <div style="margin-bottom: var(--spacing-6);">
+                            <label style="display: block; margin-bottom: var(--spacing-sm); font-weight: var(--font-weight-semibold);">Students Count</label>
+                            <input type="number" id="courseStudents" value="${course ? course.students : '0'}" min="0"
+                                   style="width: 100%; padding: var(--spacing-md); border: 2px solid var(--border-light); border-radius: var(--radius-lg); font-size: var(--font-size-base);">
+                        </div>
+                        <div style="display: flex; gap: var(--spacing-md); justify-content: flex-end;">
+                            <button type="button" onclick="this.closest('.modal-overlay').remove()"
+                                    style="padding: var(--spacing-md) var(--spacing-lg); background: var(--white-pure); border: 2px solid var(--border-light); border-radius: var(--radius-lg); cursor: pointer; font-weight: var(--font-weight-semibold);">
+                                Cancel
+                            </button>
+                            <button type="submit"
+                                    style="padding: var(--spacing-md) var(--spacing-lg); background: var(--green-emerald); color: var(--white-pure); border: none; border-radius: var(--radius-lg); cursor: pointer; font-weight: var(--font-weight-semibold);">
+                                ${course ? 'Update' : 'Create'} Course
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.remove();
+            });
+        }
+
+        function saveCourse(event, courseId) {
+            event.preventDefault();
+            
+            const course = {
+                id: courseId || placeholderCourses.length + 1,
+                title: document.getElementById('courseTitle').value,
+                category: document.getElementById('courseCategory').value,
+                price: parseFloat(document.getElementById('coursePrice').value),
+                slug: document.getElementById('courseSlug').value,
+                rating: parseFloat(document.getElementById('courseRating').value),
+                students: parseInt(document.getElementById('courseStudents').value) || 0
+            };
+
+            if (courseId) {
+                const index = placeholderCourses.findIndex(c => c.id === courseId);
+                if (index !== -1) placeholderCourses[index] = course;
+            } else {
+                placeholderCourses.push(course);
+            }
+
+            event.target.closest('.modal-overlay').remove();
+            const user = authManager.getUser();
+            renderAdminDashboard(user);
+        }
+
+        function editCourse(courseId) {
+            openCourseModal(courseId);
+        }
+
+        function deleteCourse(courseId) {
+            if (confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
+                const index = placeholderCourses.findIndex(c => c.id === courseId);
+                if (index !== -1) {
+                    placeholderCourses.splice(index, 1);
+                    const user = authManager.getUser();
+                    renderAdminDashboard(user);
+                }
+            }
+        }
+
+        function editUser(userId) {
+            alert(`Edit User ${userId} - User management form would open here`);
+        }
     </script>
 </body>
 </html>
-

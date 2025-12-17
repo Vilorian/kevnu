@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete your course purchase">
+    <title>Checkout - Kevnu</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .checkout-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-6);
+        }
+        
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: var(--spacing-4xl);
+            margin-top: var(--spacing-6);
+        }
+        
+        @media (max-width: 968px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .checkout-section {
+            background: var(--white-pure);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-6);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .checkout-section h2 {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--spacing-4);
+            color: var(--text-primary);
+        }
+        
+        .form-group {
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--text-primary);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            transition: all 0.2s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--green-emerald);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+        
+        .order-summary {
+            background: var(--white-soft);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-6);
+            position: sticky;
+            top: 120px;
+        }
+        
+        .order-item {
+            display: flex;
+            align-items: start;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-4);
+            padding-bottom: var(--spacing-4);
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .order-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            background: linear-gradient(135deg, #86EFAC 0%, #4ADE80 100%);
+        }
+        
+        .order-item-details {
+            flex: 1;
+        }
+        
+        .order-item-title {
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+        }
+        
+        .order-item-category {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+        
+        .price-breakdown {
+            margin-top: var(--spacing-6);
+            padding-top: var(--spacing-6);
+            border-top: 2px solid var(--border-light);
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-medium);
+        }
+        
+        .price-row.total {
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--border-light);
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+        }
+        
+        .price-label {
+            font-weight: var(--font-weight-medium);
+        }
+        
+        .price-value {
+            font-weight: var(--font-weight-semibold);
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-4);
+        }
+        
+        .payment-method {
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .payment-method:hover {
+            border-color: var(--green-emerald);
+            background: var(--green-50);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--green-emerald);
+            background: var(--green-50);
+        }
+        
+        .payment-method-icon {
+            font-size: var(--font-size-2xl);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .checkout-button {
+            width: 100%;
+            margin-top: var(--spacing-6);
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: var(--font-size-lg);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">
+                    <span class="kevnu-logo-text">KEVNU</span>
+                </a>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="courses.html" class="nav-link">Courses</a></li>
+                <li><a href="commission.html" class="nav-link">Commission</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-text">Login</a>
+                <a href="register.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <main style="padding-top: 120px; min-height: calc(100vh - 200px); background: var(--white-soft);">
+        <div class="checkout-container">
+            <div class="section-header" style="text-align: center; margin-bottom: var(--spacing-6);">
+                <h1 class="section-title">Complete Your Purchase</h1>
+                <p class="section-description">Review your order and complete the checkout process</p>
+            </div>
+
+            <div class="checkout-grid">
+                <!-- Checkout Form -->
+                <div>
+                    <div class="checkout-section">
+                        <h2>Billing Information</h2>
+                        <form id="checkoutForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" id="firstName" name="firstName" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" id="lastName" name="lastName" class="form-input" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="address" class="form-label">Street Address</label>
+                                <input type="text" id="address" name="address" class="form-input" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city" class="form-label">City</label>
+                                    <input type="text" id="city" name="city" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="postalCode" class="form-label">Postal Code</label>
+                                    <input type="text" id="postalCode" name="postalCode" class="form-input" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="country" class="form-label">Country</label>
+                                <input type="text" id="country" name="country" class="form-input" required>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="checkout-section" style="margin-top: var(--spacing-6);">
+                        <h2>Payment Method</h2>
+                        <div class="payment-methods">
+                            <div class="payment-method selected" data-method="card">
+                                <div class="payment-method-icon">💳</div>
+                                <div>Credit Card</div>
+                            </div>
+                            <div class="payment-method" data-method="paypal">
+                                <div class="payment-method-icon">🅿️</div>
+                                <div>PayPal</div>
+                            </div>
+                            <div class="payment-method" data-method="bank">
+                                <div class="payment-method-icon">🏦</div>
+                                <div>Bank Transfer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div>
+                    <div class="order-summary">
+                        <h2 style="margin-bottom: var(--spacing-4);">Order Summary</h2>
+                        
+                        <div id="orderItems">
+                            <div class="loading-container text-center">
+                                <div class="loading"></div>
+                                <p class="loading-text">Loading order...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="price-breakdown" id="priceBreakdown">
+                            <!-- Price breakdown will be inserted here -->
+                        </div>
+                        
+                        <button class="btn btn-primary checkout-button" id="completePurchase">
+                            Complete Purchase
+                        </button>
+                        
+                        <p style="text-align: center; margin-top: var(--spacing-md); font-size: var(--font-size-sm); color: var(--text-secondary);">
+                            By completing your purchase, you agree to our Terms of Service and Privacy Policy.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <a href="index.html" class="logo-link">
+                            <span class="kevnu-logo-text" style="color: var(--white-pure);">KEVNU</span>
+                        </a>
+                    </div>
+                    <p class="footer-description">
+                        Professional web development and UI/UX design courses. 
+                        Learn from experts and transform your career.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-heading">Menu</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="commission.html">Commission</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    &copy; <span id="currentYear"></span> Kevnu. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/course.js"></script>
+    <script>
+        // Constants for fees
+        const VAT_RATE = 0.20; // 20% VAT
+        const PROCESSING_FEE_RATE = 0.025; // 2.5% processing fee
+        
+        let currentCourse = null;
+        let selectedPaymentMethod = 'card';
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Get course from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('course');
+            const courseSlug = urlParams.get('slug');
+            
+            if (!courseId && !courseSlug) {
+                window.location.href = 'courses.html';
+                return;
+            }
+            
+            // Load course data
+            try {
+                let result;
+                if (courseSlug) {
+                    result = await API.getCourse(courseSlug);
+                } else if (courseId) {
+                    // Try to get course by ID - for now, redirect to courses if no slug
+                    // In production, you'd have an API endpoint to get by ID
+                    console.warn('Course ID provided but slug is preferred. Redirecting...');
+                    window.location.href = 'courses.html';
+                    return;
+                } else {
+                    window.location.href = 'courses.html';
+                    return;
+                }
+                
+                if (result.success && result.course) {
+                    currentCourse = result.course;
+                    renderOrderSummary(result.course);
+                } else {
+                    window.location.href = 'courses.html';
+                }
+            } catch (error) {
+                console.error('Error loading course:', error);
+                window.location.href = 'courses.html';
+            }
+            
+            // Payment method selection
+            document.querySelectorAll('.payment-method').forEach(method => {
+                method.addEventListener('click', function() {
+                    document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedPaymentMethod = this.dataset.method;
+                });
+            });
+            
+            // Complete purchase button
+            document.getElementById('completePurchase').addEventListener('click', function() {
+                const form = document.getElementById('checkoutForm');
+                if (form.checkValidity()) {
+                    completePurchase();
+                } else {
+                    form.reportValidity();
+                }
+            });
+        });
+        
+        function renderOrderSummary(course) {
+            const orderItems = document.getElementById('orderItems');
+            const originalPrice = parseFloat(course.price) || 0;
+            const vatAmount = originalPrice * VAT_RATE;
+            const processingFee = originalPrice * PROCESSING_FEE_RATE;
+            const total = originalPrice + vatAmount + processingFee;
+            
+            orderItems.innerHTML = `
+                <div class="order-item">
+                    <img src="${course.thumbnail || '/assets/images/placeholder.jpg'}" 
+                         alt="${course.title}" 
+                         class="order-item-image"
+                         onerror="this.style.background='linear-gradient(135deg, #86EFAC 0%, #4ADE80 100%)'">
+                    <div class="order-item-details">
+                        <div class="order-item-title">${course.title}</div>
+                        <div class="order-item-category">${course.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
+                    </div>
+                </div>
+            `;
+            
+            const priceBreakdown = document.getElementById('priceBreakdown');
+            priceBreakdown.innerHTML = `
+                <div class="price-row">
+                    <span class="price-label">Original Price</span>
+                    <span class="price-value">$${originalPrice.toFixed(2)}</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">VAT (20%)</span>
+                    <span class="price-value">$${vatAmount.toFixed(2)}</span>
+                </div>
+                <div class="price-row">
+                    <span class="price-label">Processing Fee (2.5%)</span>
+                    <span class="price-value">$${processingFee.toFixed(2)}</span>
+                </div>
+                <div class="price-row total">
+                    <span class="price-label">Total</span>
+                    <span class="price-value">$${total.toFixed(2)}</span>
+                </div>
+            `;
+        }
+        
+        async function completePurchase() {
+            const button = document.getElementById('completePurchase');
+            const originalText = button.textContent;
+            button.disabled = true;
+            button.textContent = 'Processing...';
+            
+            try {
+                // In a real application, you would send this data to your payment processor
+                const formData = new FormData(document.getElementById('checkoutForm'));
+                const billingData = {
+                    firstName: formData.get('firstName'),
+                    lastName: formData.get('lastName'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    address: formData.get('address'),
+                    city: formData.get('city'),
+                    postalCode: formData.get('postalCode'),
+                    country: formData.get('country'),
+                    paymentMethod: selectedPaymentMethod
+                };
+                
+                // Calculate final price
+                const originalPrice = parseFloat(currentCourse.price) || 0;
+                const vatAmount = originalPrice * VAT_RATE;
+                const processingFee = originalPrice * PROCESSING_FEE_RATE;
+                const total = originalPrice + vatAmount + processingFee;
+                
+                // Enroll user in course
+                if (typeof saveEnrollmentToLocalStorage === 'function') {
+                    const user = typeof authManager !== 'undefined' ? authManager.getUser() : null;
+                    if (user && currentCourse) {
+                        saveEnrollmentToLocalStorage(currentCourse.id, user.id);
+                    }
+                } else {
+                    // Fallback: save directly
+                    const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]');
+                    const user = typeof authManager !== 'undefined' ? authManager.getUser() : null;
+                    if (user && currentCourse) {
+                        const existing = enrollments.find(e => e.courseId === currentCourse.id && e.userId === user.id);
+                        if (!existing) {
+                            enrollments.push({
+                                id: 'enrollment_' + Date.now(),
+                                userId: user.id,
+                                courseId: parseInt(currentCourse.id),
+                                progress: 0,
+                                enrolledAt: new Date().toISOString()
+                            });
+                            localStorage.setItem('enrollments', JSON.stringify(enrollments));
+                        }
+                    }
+                }
+                
+                // Here you would typically:
+                // 1. Send payment to payment processor (Stripe, PayPal, etc.)
+                // 2. Create order in database
+                // 3. Enroll user in course
+                
+                // For now, we'll simulate a successful purchase
+                setTimeout(() => {
+                    alert(`Purchase successful! Total: $${total.toFixed(2)}\n\nYou will be redirected to your dashboard.`);
+                    // In production, you would enroll the user here
+                    // await API.enroll(currentCourse.id);
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('Error completing purchase:', error);
+                alert('There was an error processing your purchase. Please try again.');
+                button.disabled = false;
+                button.textContent = originalText;
+            }
+        }
+    </script>
+</body>
+</html>
+

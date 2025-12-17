@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive course lesson with text, visuals, and interactive elements">
+    <title>Lesson - Kevnu</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js for code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .lesson-page {
+            background: var(--white-soft);
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .lesson-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-6);
+        }
+
+        .lesson-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            gap: var(--spacing-6);
+            margin-top: var(--spacing-6);
+        }
+
+        @media (max-width: 1200px) {
+            .lesson-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .lesson-sidebar,
+            .lesson-nav {
+                display: none;
+            }
+        }
+
+        /* Navigation Sidebar */
+        .lesson-nav {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            background: var(--white-pure);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-light);
+        }
+
+        .nav-module {
+            margin-bottom: var(--spacing-6);
+        }
+
+        .nav-module-title {
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-base);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--green-100);
+        }
+
+        .nav-lesson {
+            padding: var(--spacing-sm) var(--spacing-md);
+            margin-bottom: var(--spacing-xs);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .nav-lesson:hover {
+            background: var(--green-50);
+        }
+
+        .nav-lesson.active {
+            background: var(--green-100);
+            color: var(--green-emerald);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .nav-lesson.completed {
+            color: var(--green-600);
+        }
+
+        .nav-lesson.completed::before {
+            content: '✓';
+            color: var(--green-emerald);
+            font-weight: var(--font-weight-bold);
+            margin-right: var(--spacing-xs);
+        }
+
+        /* Main Content */
+        .lesson-content {
+            background: var(--white-pure);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-8);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-light);
+        }
+
+        .lesson-header {
+            margin-bottom: var(--spacing-8);
+            padding-bottom: var(--spacing-6);
+            border-bottom: 3px solid var(--green-100);
+        }
+
+        .lesson-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .lesson-breadcrumb a {
+            color: var(--green-emerald);
+            text-decoration: none;
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.3;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: var(--spacing-xl);
+            flex-wrap: wrap;
+            color: var(--text-medium);
+            font-size: var(--font-size-sm);
+        }
+
+        .lesson-meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        /* Learning Objectives */
+        .learning-objectives {
+            background: var(--green-50);
+            border-left: 4px solid var(--green-emerald);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-6);
+            margin-bottom: var(--spacing-8);
+        }
+
+        .learning-objectives h3 {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .objectives-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .objectives-list li {
+            padding: var(--spacing-sm) 0;
+            padding-left: var(--spacing-lg);
+            position: relative;
+            color: var(--text-medium);
+            line-height: 1.8;
+        }
+
+        .objectives-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--green-emerald);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* Lesson Sections */
+        .lesson-section {
+            margin-bottom: var(--spacing-10);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--green-100);
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-full);
+            background: linear-gradient(135deg, var(--green-400) 0%, var(--green-600) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white-pure);
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+        }
+
+        .section-content {
+            line-height: 2.2;
+            color: var(--text-medium);
+            font-size: var(--font-size-base);
+            letter-spacing: 0.02em;
+            word-spacing: 0.1em;
+        }
+
+        .section-content p {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: #2d2d2d;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-6);
+            margin: var(--spacing-6) 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .code-block-title {
+            color: #fff;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .code-copy-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: var(--font-size-xs);
+            transition: all 0.2s ease;
+        }
+
+        .code-copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .code-block pre {
+            margin: 0;
+            color: #f8f8f2;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: var(--font-size-sm);
+            line-height: 1.6;
+        }
+
+        /* Visual Aids */
+        .visual-aid {
+            margin: var(--spacing-6) 0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .visual-aid img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .visual-aid-caption {
+            background: var(--green-50);
+            padding: var(--spacing-md);
+            font-size: var(--font-size-sm);
+            color: var(--text-medium);
+            text-align: center;
+        }
+
+        /* Before/After Comparison */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin: var(--spacing-6) 0;
+        }
+
+        .comparison-item {
+            background: var(--white-soft);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            border: 2px solid var(--border-light);
+        }
+
+        .comparison-label {
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            padding-bottom: var(--spacing-xs);
+            border-bottom: 2px solid var(--green-100);
+        }
+
+        .comparison-item.before .comparison-label {
+            color: #ef4444;
+        }
+
+        .comparison-item.after .comparison-label {
+            color: var(--green-emerald);
+        }
+
+        /* Interactive Code Playground */
+        .code-playground {
+            background: var(--white-soft);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--green-100);
+            margin: var(--spacing-6) 0;
+            overflow: hidden;
+        }
+
+        .playground-header {
+            background: var(--green-100);
+            padding: var(--spacing-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .playground-title {
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+        }
+
+        .playground-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .playground-btn {
+            padding: var(--spacing-xs) var(--spacing-md);
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            transition: all 0.2s ease;
+        }
+
+        .playground-btn.run {
+            background: var(--green-emerald);
+            color: var(--white-pure);
+        }
+
+        .playground-btn.reset {
+            background: var(--white-pure);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+
+        .playground-editor {
+            padding: var(--spacing-md);
+        }
+
+        .playground-editor textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: var(--spacing-md);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: var(--font-size-sm);
+            resize: vertical;
+        }
+
+        .playground-output {
+            background: #1e1e1e;
+            color: #fff;
+            padding: var(--spacing-md);
+            font-family: 'Courier New', monospace;
+            font-size: var(--font-size-sm);
+            min-height: 100px;
+            border-top: 2px solid var(--green-100);
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: var(--green-50);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-6);
+            margin: var(--spacing-6) 0;
+            border-left: 4px solid var(--green-emerald);
+        }
+
+        .quiz-question {
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-lg);
+        }
+
+        .quiz-options {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .quiz-option {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+            background: var(--white-pure);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--green-emerald);
+            background: var(--green-100);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--green-emerald);
+            background: var(--green-100);
+        }
+
+        .quiz-option.correct {
+            border-color: var(--green-emerald);
+            background: var(--green-200);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #ef4444;
+            background: #fee2e2;
+        }
+
+        .quiz-submit {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-xl);
+            background: var(--green-emerald);
+            color: var(--white-pure);
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-submit:hover {
+            background: var(--green-600);
+        }
+
+        /* Tips & Tricks */
+        .tips-section {
+            background: linear-gradient(135deg, var(--green-50) 0%, var(--white-pure) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-6);
+            margin: var(--spacing-6) 0;
+            border-left: 4px solid var(--green-emerald);
+        }
+
+        .tip-item {
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+            background: var(--white-pure);
+            border-radius: var(--radius-md);
+        }
+
+        .tip-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .tip-icon {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: var(--green-emerald);
+            color: var(--white-pure);
+            border-radius: var(--radius-full);
+            text-align: center;
+            line-height: 32px;
+            font-weight: var(--font-weight-bold);
+            margin-right: var(--spacing-sm);
+        }
+
+        /* Progress Sidebar */
+        .lesson-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .progress-card {
+            background: var(--white-pure);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-light);
+            margin-bottom: var(--spacing-6);
+        }
+
+        .progress-header {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .progress-title {
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .progress-bar-container {
+            background: var(--green-100);
+            border-radius: var(--radius-full);
+            height: 12px;
+            overflow: hidden;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, var(--green-400) 0%, var(--green-600) 100%);
+            height: 100%;
+            border-radius: var(--radius-full);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: var(--font-size-sm);
+            color: var(--text-medium);
+        }
+
+        .lesson-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .lesson-btn {
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-size: var(--font-size-base);
+        }
+
+        .lesson-btn.primary {
+            background: var(--green-emerald);
+            color: var(--white-pure);
+        }
+
+        .lesson-btn.primary:hover {
+            background: var(--green-600);
+        }
+
+        .lesson-btn.secondary {
+            background: var(--white-pure);
+            color: var(--green-emerald);
+            border: 2px solid var(--green-emerald);
+        }
+
+        .lesson-btn.secondary:hover {
+            background: var(--green-50);
+        }
+
+        .download-resources {
+            list-style: none;
+            padding: 0;
+            margin: var(--spacing-md) 0 0 0;
+        }
+
+        .download-resource {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm);
+            color: var(--text-medium);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .download-resource:hover {
+            background: var(--green-50);
+            color: var(--green-emerald);
+        }
+
+        .download-resource svg {
+            flex-shrink: 0;
+        }
+
+        /* Prerequisites */
+        .prerequisites {
+            background: var(--green-50);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-6);
+        }
+
+        .prerequisites-title {
+            font-weight: var(--font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-sm);
+        }
+
+        .prerequisites-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: var(--font-size-sm);
+            color: var(--text-medium);
+        }
+
+        .prerequisites-list li {
+            padding: var(--spacing-xs) 0;
+            padding-left: var(--spacing-md);
+            position: relative;
+        }
+
+        .prerequisites-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--green-emerald);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-link">
+                    <span class="kevnu-logo-text">KEVNU</span>
+                </a>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="courses.html" class="nav-link">Courses</a></li>
+                <li><a href="commission.html" class="nav-link">Commission</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-text">Login</a>
+                <a href="register.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="lesson-page">
+        <div class="lesson-container">
+            <div class="lesson-layout">
+                <!-- Navigation Sidebar -->
+                <aside class="lesson-nav">
+                    <div class="nav-module">
+                        <div class="nav-module-title">Module 1: HTML Fundamentals</div>
+                        <div class="nav-lesson completed">Introduction to HTML</div>
+                        <div class="nav-lesson completed">HTML Structure</div>
+                        <div class="nav-lesson active">HTML Elements & Tags</div>
+                        <div class="nav-lesson">HTML Attributes</div>
+                        <div class="nav-lesson">Forms & Input</div>
+                    </div>
+                    <div class="nav-module">
+                        <div class="nav-module-title">Module 2: CSS Styling</div>
+                        <div class="nav-lesson">CSS Basics</div>
+                        <div class="nav-lesson">Selectors</div>
+                        <div class="nav-lesson">Box Model</div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <article class="lesson-content">
+                    <div class="lesson-header">
+                        <div class="lesson-breadcrumb">
+                            <a href="dashboard.html">Dashboard</a> / 
+                            <a href="course-detail.html?slug=web-development-bootcamp-part-1">Web Development Bootcamp Part 1</a> / 
+                            <span>HTML Elements & Tags</span>
+                        </div>
+                        <h1 class="lesson-title">HTML Elements & Tags</h1>
+                        <div class="lesson-meta">
+                            <div class="lesson-meta-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                <span>15 minutes</span>
+                            </div>
+                            <div class="lesson-meta-item">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                </svg>
+                                <span>Beginner Level</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Learning Objectives -->
+                    <div class="learning-objectives">
+                        <h3>📚 Learning Objectives</h3>
+                        <ul class="objectives-list">
+                            <li>Understand the structure and purpose of HTML elements</li>
+                            <li>Learn common HTML tags and their usage</li>
+                            <li>Master the difference between block and inline elements</li>
+                            <li>Practice creating semantic HTML structure</li>
+                        </ul>
+                    </div>
+
+                    <!-- Prerequisites -->
+                    <div class="prerequisites">
+                        <div class="prerequisites-title">Prerequisites:</div>
+                        <ul class="prerequisites-list">
+                            <li>Basic understanding of HTML structure</li>
+                            <li>Familiarity with text editors</li>
+                        </ul>
+                    </div>
+
+                    <!-- Introduction Section -->
+                    <section class="lesson-section">
+                        <div class="section-header">
+                            <div class="section-icon">1</div>
+                            <h2 class="section-title">Introduction</h2>
+                        </div>
+                        <div class="section-content">
+                            <p>HTML elements are the building blocks of every web page. In this lesson, we'll explore the fundamental HTML elements and tags that form the structure of web content. Understanding these elements is crucial for creating well-structured, semantic HTML documents.</p>
+                            <p>HTML elements consist of opening tags, content, and closing tags. Some elements are self-closing and don't require a closing tag. Let's dive into the most commonly used HTML elements.</p>
+                        </div>
+                    </section>
+
+                    <!-- Concepts Section -->
+                    <section class="lesson-section">
+                        <div class="section-header">
+                            <div class="section-icon">2</div>
+                            <h2 class="section-title">Core Concepts</h2>
+                        </div>
+                        <div class="section-content">
+                            <h3 style="font-size: var(--font-size-xl); margin-bottom: var(--spacing-md); color: var(--text-primary);">Block vs Inline Elements</h3>
+                            <p>HTML elements are categorized into two main types: block-level and inline elements. Block elements take up the full width of their container and start on a new line, while inline elements only take up as much width as necessary and don't start on a new line.</p>
+                            
+                            <div class="visual-aid">
+                                <div style="background: var(--green-50); padding: var(--spacing-6); text-align: center;">
+                                    <div style="display: inline-block; background: var(--green-emerald); color: white; padding: var(--spacing-md); margin: var(--spacing-sm); border-radius: var(--radius-md);">
+                                        Block Element
+                                    </div>
+                                    <div style="display: inline-block; background: var(--green-emerald); color: white; padding: var(--spacing-md); margin: var(--spacing-sm); border-radius: var(--radius-md);">
+                                        Block Element
+                                    </div>
+                                    <br>
+                                    <span style="background: var(--green-400); color: white; padding: var(--spacing-sm) var(--spacing-md); margin: var(--spacing-xs); border-radius: var(--radius-md);">Inline</span>
+                                    <span style="background: var(--green-400); color: white; padding: var(--spacing-sm) var(--spacing-md); margin: var(--spacing-xs); border-radius: var(--radius-md);">Elements</span>
+                                    <span style="background: var(--green-400); color: white; padding: var(--spacing-sm) var(--spacing-md); margin: var(--spacing-xs); border-radius: var(--radius-md);">Stay</span>
+                                    <span style="background: var(--green-400); color: white; padding: var(--spacing-sm) var(--spacing-md); margin: var(--spacing-xs); border-radius: var(--radius-md);">Inline</span>
+                                </div>
+                                <div class="visual-aid-caption">Visual representation of block vs inline elements</div>
+                            </div>
+
+                            <h3 style="font-size: var(--font-size-xl); margin: var(--spacing-lg) 0 var(--spacing-md) 0; color: var(--text-primary);">Common HTML Elements</h3>
+                            <p>Here are the most essential HTML elements you'll use in web development:</p>
+                            
+                            <ul style="line-height: 2; margin: var(--spacing-lg) 0;">
+                                <li><strong>&lt;h1&gt; to &lt;h6&gt;</strong> - Heading elements for document structure</li>
+                                <li><strong>&lt;p&gt;</strong> - Paragraph element for text content</li>
+                                <li><strong>&lt;div&gt;</strong> - Generic container block element</li>
+                                <li><strong>&lt;span&gt;</strong> - Generic inline container element</li>
+                                <li><strong>&lt;a&gt;</strong> - Anchor element for links</li>
+                                <li><strong>&lt;img&gt;</strong> - Image element (self-closing)</li>
+                                <li><strong>&lt;ul&gt; and &lt;ol&gt;</strong> - Unordered and ordered lists</li>
+                                <li><strong>&lt;li&gt;</strong> - List item element</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Examples Section -->
+                    <section class="lesson-section">
+                        <div class="section-header">
+                            <div class="section-icon">3</div>
+                            <h2 class="section-title">Examples</h2>
+                        </div>
+                        <div class="section-content">
+                            <p>Let's look at practical examples of HTML elements in action:</p>
+
+                            <div class="code-block">
+                                <div class="code-block-header">
+                                    <span class="code-block-title">Example: Basic HTML Structure</span>
+                                    <button class="code-copy-btn" onclick="copyCode(this)">Copy</button>
+                                </div>
+                                <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;title&gt;My First Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Welcome to HTML&lt;/h1&gt;
+    &lt;p&gt;This is a paragraph element.&lt;/p&gt;
+    &lt;div&gt;
+        &lt;p&gt;This paragraph is inside a div container.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                            </div>
+
+                            <div class="comparison">
+                                <div class="comparison-item before">
+                                    <div class="comparison-label">❌ Bad Practice</div>
+                                    <div class="code-block" style="margin: 0; padding: var(--spacing-md);">
+                                        <pre style="margin: 0;"><code class="language-html">&lt;div&gt;&lt;div&gt;&lt;div&gt;
+    &lt;span&gt;Content&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+                                    </div>
+                                </div>
+                                <div class="comparison-item after">
+                                    <div class="comparison-label">✅ Good Practice</div>
+                                    <div class="code-block" style="margin: 0; padding: var(--spacing-md);">
+                                        <pre style="margin: 0;"><code class="language-html">&lt;article&gt;
+    &lt;h2&gt;Article Title&lt;/h2&gt;
+    &lt;p&gt;Content&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Code Playground -->
+                            <div class="code-playground">
+                                <div class="playground-header">
+                                    <div class="playground-title">💻 Try It Yourself</div>
+                                    <div class="playground-actions">
+                                        <button class="playground-btn run" onclick="runCode()">Run Code</button>
+                                        <button class="playground-btn reset" onclick="resetCode()">Reset</button>
+                                    </div>
+                                </div>
+                                <div class="playground-editor">
+                                    <textarea id="playgroundCode" placeholder="Type your HTML here...">&lt;h1&gt;Hello World&lt;/h1&gt;
+&lt;p&gt;Edit this code and click Run!&lt;/p&gt;</textarea>
+                                </div>
+                                <div class="playground-output" id="playgroundOutput">
+                                    <div style="padding: var(--spacing-md);">
+                                        <h1>Hello World</h1>
+                                        <p>Edit this code and click Run!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Tips & Tricks Section -->
+                    <section class="lesson-section">
+                        <div class="section-header">
+                            <div class="section-icon">4</div>
+                            <h2 class="section-title">Tips & Tricks</h2>
+                        </div>
+                        <div class="tips-section">
+                            <div class="tip-item">
+                                <span class="tip-icon">💡</span>
+                                <strong>Use Semantic HTML:</strong> Always prefer semantic elements like &lt;article&gt;, &lt;section&gt;, &lt;nav&gt; over generic &lt;div&gt; elements for better accessibility and SEO.
+                            </div>
+                            <div class="tip-item">
+                                <span class="tip-icon">⚡</span>
+                                <strong>Self-Closing Tags:</strong> Elements like &lt;img&gt; and &lt;br&gt; don't need closing tags. Use &lt;img /&gt; or &lt;img&gt; (both are valid in HTML5).
+                            </div>
+                            <div class="tip-item">
+                                <span class="tip-icon">🎯</span>
+                                <strong>Nesting Rules:</strong> Always close tags in the reverse order you opened them. &lt;div&gt;&lt;p&gt;Content&lt;/p&gt;&lt;/div&gt; is correct, not &lt;div&gt;&lt;p&gt;Content&lt;/div&gt;&lt;/p&gt;.
+                            </div>
+                            <div class="tip-item">
+                                <span class="tip-icon">🔍</span>
+                                <strong>Validation:</strong> Use HTML validators to check your code. Valid HTML ensures better browser compatibility and accessibility.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Quiz Section -->
+                    <section class="lesson-section">
+                        <div class="section-header">
+                            <div class="section-icon">?</div>
+                            <h2 class="section-title">Knowledge Check</h2>
+                        </div>
+                        <div class="quiz-section">
+                            <div class="quiz-question">Which of the following is a block-level element?</div>
+                            <ul class="quiz-options">
+                                <li class="quiz-option" onclick="selectOption(this)">A. &lt;span&gt;</li>
+                                <li class="quiz-option" onclick="selectOption(this)">B. &lt;div&gt;</li>
+                                <li class="quiz-option" onclick="selectOption(this)">C. &lt;a&gt;</li>
+                                <li class="quiz-option" onclick="selectOption(this)">D. &lt;img&gt;</li>
+                            </ul>
+                            <button class="quiz-submit" onclick="submitQuiz()">Submit Answer</button>
+                        </div>
+                    </section>
+
+                    <!-- Navigation Buttons -->
+                    <div style="display: flex; justify-content: space-between; margin-top: var(--spacing-8); padding-top: var(--spacing-6); border-top: 2px solid var(--green-100);">
+                        <button class="lesson-btn secondary" onclick="previousLesson()">
+                            ← Previous Lesson
+                        </button>
+                        <button class="lesson-btn primary" onclick="nextLesson()">
+                            Next Lesson →
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Progress Sidebar -->
+                <aside class="lesson-sidebar">
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <div class="progress-title">Course Progress</div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: 35%;"></div>
+                            </div>
+                            <div class="progress-text">35% Complete (7 of 20 lessons)</div>
+                        </div>
+                    </div>
+
+                    <div class="progress-card">
+                        <div class="progress-header">
+                            <div class="progress-title">Lesson Resources</div>
+                            <ul class="download-resources">
+                                <li>
+                                    <a href="#" class="download-resource">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                        <span>Lesson Notes (PDF)</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="download-resource">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                            <polyline points="14 2 14 8 20 8"></polyline>
+                                        </svg>
+                                        <span>Code Examples (ZIP)</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="download-resource">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                        <span>Visual Diagrams (PNG)</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="progress-card">
+                        <div class="lesson-actions">
+                            <button class="lesson-btn primary" onclick="markComplete()">Mark as Complete</button>
+                            <button class="lesson-btn secondary" onclick="saveProgress()">Save Progress</button>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <a href="index.html" class="logo-link">
+                            <span class="kevnu-logo-text" style="color: var(--white-pure);">KEVNU</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    &copy; <span id="currentYear"></span> Kevnu. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Code Playground
+        function runCode() {
+            const code = document.getElementById('playgroundCode').value;
+            const output = document.getElementById('playgroundOutput');
+            output.innerHTML = code;
+        }
+
+        function resetCode() {
+            document.getElementById('playgroundCode').value = '<h1>Hello World</h1>\n<p>Edit this code and click Run!</p>';
+            runCode();
+        }
+
+        // Copy Code
+        function copyCode(btn) {
+            const codeBlock = btn.closest('.code-block').querySelector('code');
+            const text = codeBlock.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+
+        // Quiz
+        let selectedOption = null;
+        function selectOption(element) {
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            selectedOption = element;
+        }
+
+        function submitQuiz() {
+            if (!selectedOption) {
+                alert('Please select an answer!');
+                return;
+            }
+            
+            const correctAnswer = document.querySelectorAll('.quiz-option')[1]; // B is correct
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            if (selectedOption === correctAnswer) {
+                selectedOption.classList.add('correct');
+                alert('Correct! 🎉');
+            } else {
+                selectedOption.classList.add('incorrect');
+                correctAnswer.classList.add('correct');
+                alert('Incorrect. The correct answer is B. &lt;div&gt; is a block-level element.');
+            }
+        }
+
+        // Navigation
+        function previousLesson() {
+            alert('Loading previous lesson...');
+        }
+
+        function nextLesson() {
+            alert('Loading next lesson...');
+        }
+
+        function markComplete() {
+            alert('Lesson marked as complete! Progress saved.');
+        }
+
+        function saveProgress() {
+            alert('Progress saved!');
+        }
+    </script>
+</body>
+</html>
+
